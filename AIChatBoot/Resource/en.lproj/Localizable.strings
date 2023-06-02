@@ -1,0 +1,55 @@
+/* 
+  Localizable.strings
+  AIChatBoot
+
+  Created by 苍蓝猛兽 on 2023/5/26.
+  
+*/
+
+// MARK: Home
+"homeTitle" = "All Chatbot";
+"homeRecommend" = "You Might Like";
+"homeLike" = "Your Likes";
+"homeHot" = "Hot";
+
+// MARK: Explore
+"exploreTitle" = "Explore";
+
+// MARK: History
+"historyTitle" = "History";
+"historySelectAll" = "Select all";
+"historyDeselectAll" = "Deselect all";
+"historyDone" = "Done";
+"historyEmpty" = "No history yet...";
+"historyDeleteAlertTitle" = "Delete all selected history?";
+"historyDeleteAlertContent" = "Cannot be restored after deletion.";
+"historyTip" = "Please select the chat history to delete!";
+
+// MARK: Chat
+"inputBoxPlaceholder" = "Write your message";
+"chatTitle" = "AI Chat";
+"Copy Successfully" = "Copy Successfully";
+"chatRefresh" = "Regenerate";
+"chatCopy" = "Copy";
+"chatShare" = "Share";
+"chatQuitAlertTitle" = "Quit conversation?";
+"chatQuitAlertContent" = "Answer is loading, cannot add to history.";
+"chatTip" = "Answer is loading, Please wait.";
+
+// MARK: Alert
+"Cancel" = "Cancel";
+"Delete" = "Delete";
+"Quit" = "Quit";
+"Rate" = "Rate";
+
+// MARK: Setting
+"settingTitle" = "Settings";
+"settingVIPTitle" = "CHAT GPT";
+"settingVIPContent" = "Answers from ChatGPT & GPT-4\nNo Limits Dialogues";
+"settingVersion" = "Current Version";
+"settingPrivacy" = "Privacy Policy";
+"settingService" = "Terms of Use";
+"settingAbout" = "About Us";
+"settingContact" = "Contact Us";
+"settingRate" = "Rate Us";
+"settingRateAlert" = "Do you like our app? Please rate AI Chatbot.";
