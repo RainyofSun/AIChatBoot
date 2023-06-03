@@ -158,6 +158,8 @@
 		7BD54B742A28981500F416CC /* LRChatBootSpeechSynthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B732A28981500F416CC /* LRChatBootSpeechSynthesizer.swift */; };
 		7BD54B802A29DE6E00F416CC /* LRTextContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B7E2A29DE6E00F416CC /* LRTextContentView.swift */; };
 		7BD54B822A29DE9500F416CC /* LRTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B812A29DE9500F416CC /* LRTextView.swift */; };
+		7BD54B852A29F2B000F416CC /* LRChatBootChatDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B842A29F2B000F416CC /* LRChatBootChatDB.swift */; };
+		7BD54B872A2AD53C00F416CC /* LRChatBootChatTopicDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B862A2AD53C00F416CC /* LRChatBootChatTopicDB.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -315,6 +317,8 @@
 		7BD54B732A28981500F416CC /* LRChatBootSpeechSynthesizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRChatBootSpeechSynthesizer.swift; sourceTree = "<group>"; };
 		7BD54B7E2A29DE6E00F416CC /* LRTextContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRTextContentView.swift; sourceTree = "<group>"; };
 		7BD54B812A29DE9500F416CC /* LRTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRTextView.swift; sourceTree = "<group>"; };
+		7BD54B842A29F2B000F416CC /* LRChatBootChatDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootChatDB.swift; sourceTree = "<group>"; };
+		7BD54B862A2AD53C00F416CC /* LRChatBootChatTopicDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootChatTopicDB.swift; sourceTree = "<group>"; };
 		CC157583663A6FDC106A477F /* Pods_AIChatBoot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AIChatBoot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E743412651AA379D9D5AAA6D /* Pods-AIChatBoot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIChatBoot.release.xcconfig"; path = "Target Support Files/Pods-AIChatBoot/Pods-AIChatBoot.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1169,6 +1173,8 @@
 		7BD54B832A29EF7F00F416CC /* ChatDB */ = {
 			isa = PBXGroup;
 			children = (
+				7BD54B842A29F2B000F416CC /* LRChatBootChatDB.swift */,
+				7BD54B862A2AD53C00F416CC /* LRChatBootChatTopicDB.swift */,
 			);
 			path = ChatDB;
 			sourceTree = "<group>";
@@ -1307,6 +1313,7 @@
 				7BB762422A24A88900742C06 /* LRChatBootExploreAllClassifyView.swift in Sources */,
 				7BB4F92A2A1F0E64006E3AEF /* LRGoogleInterstitialADManager.swift in Sources */,
 				7BB4F9F22A1F44BC006E3AEF /* LRChatBootExploreViewController.swift in Sources */,
+				7BD54B852A29F2B000F416CC /* LRChatBootChatDB.swift in Sources */,
 				7BB4F9732A1F10DE006E3AEF /* DateFormatter+Extension.swift in Sources */,
 				7BB4F9BF2A1F329B006E3AEF /* Decrypt.swift in Sources */,
 				7BB762332A24945F00742C06 /* Int+Extension.swift in Sources */,
@@ -1379,6 +1386,7 @@
 				7BD54B642A274AAF00F416CC /* LRChatBootChatProtocol.swift in Sources */,
 				7BB129952A20B72A001AC401 /* LRChatBootSubscribeViewController.swift in Sources */,
 				7BB762362A249C1900742C06 /* LRChatBootExploreSliderView.swift in Sources */,
+				7BD54B872A2AD53C00F416CC /* LRChatBootChatTopicDB.swift in Sources */,
 				7BB4F9462A1F0E64006E3AEF /* LRLocalizableManager.swift in Sources */,
 				7BB4F9422A1F0E64006E3AEF /* LRLoopVideoPlayer.swift in Sources */,
 				7BB4F9FF2A1F58B2006E3AEF /* LRChatBootStringAppearOneByOneAnimation.swift in Sources */,

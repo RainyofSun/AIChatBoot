@@ -10,7 +10,7 @@ import UIKit
 // MARK: Cell动画代理
 protocol ChatBootAIChatAnimationProtocol: AnyObject {
     /// 动画执行结束
-    func AI_animationComplete(isEnd: Bool)
+    func AI_animationComplete(isEnd: Bool, cellMark: IndexPath?)
 }
 
 // MARK: AI回复的操作代理

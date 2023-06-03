@@ -99,10 +99,10 @@ extension LRNavigationViewController: UIGestureRecognizerDelegate {
         return !isTransitioning.boolValue
     }
     
-    /// 控制开始触发右滑返回手势的区域，这里是左边边缘距离 1/4 屏幕宽度范围内都能触发
+    /// 控制开始触发右滑返回手势的区域，这里是左边边缘距离 1/30 屏幕宽度范围内都能触发
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         let point = touch.location(in: self.view)
-        return point.x >= 0 && point.x < ceil(UIScreen.main.bounds.size.width/4.0)
+        return point.x >= 0 && point.x < ceil(UIScreen.main.bounds.size.width/30.0)
     }
     
     /// 解决 scrollView 的滑动手势 和 右滑返回手势 冲突问题

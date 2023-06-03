@@ -7,12 +7,33 @@
 
 import UIKit
 import HandyJSON
+import WCDBSwift
 
-struct LRChatBootChatModel: HandyJSON {
+struct LRChatBootChatModel: HandyJSON, TableCodable {
     /// 聊天内容
     var chatContent: String = ""
     /// 聊天时间
     var chatTime: String = Date().yearMonthDay1FormatString
     /// 聊天角色
     var chatRole: AIChatRole = .User
+    /// 动画是否执行
+    var animationComplete: Bool = false
+    
+    // MARK: DB
+    /// 主键
+    var identifier: Int?
+    /// 用于定义是否使用自增的方式插入
+    var isAutoIncrement: Bool = true
+    
+    enum CodingKeys: String, CodingTableKey {
+        typealias Root = LRChatBootChatModel
+        static let objectRelationalMapping = TableBinding(CodingKeys.self) {
+            BindColumnConstraint(identifier, isPrimary: true)
+        }
+        case identifier = "id"
+        case chatContent = "chatContent"
+        case chatTime = "chatTime"
+        case chatRole = "chatRole"
+        case animationComplete = "animationComplete"
+    }
 }

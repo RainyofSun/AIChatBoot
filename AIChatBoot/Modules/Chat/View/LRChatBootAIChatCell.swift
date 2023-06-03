@@ -75,9 +75,11 @@ class LRChatBootAIChatCell: LRChatBootChatCell {
     }
     
     override func reloadChatCellSource(chatModel: LRChatBootChatModel) {
-        self.shareBtn.alpha = .zero
-        self.copyBtn.alpha = .zero
-        self.refreshBtn.alpha = .zero
+        if !chatModel.animationComplete {
+            self.shareBtn.alpha = .zero
+            self.copyBtn.alpha = .zero
+            self.refreshBtn.alpha = .zero
+        }
         if self.indicatorView != nil {
             self.indicatorView?.stopAnimating()
             self.indicatorView?.removeFromSuperview()

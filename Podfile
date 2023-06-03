@@ -8,7 +8,7 @@ def CommonPods
   pod 'HandyJSON', '5.0.2'
   pod 'Moya', '15.0.0'
   pod 'SnapKit', '5.6.0'
-  pod 'WCDB.swift', '1.0.8.2'
+  pod 'WCDB.swift', '2.0.1'
   pod 'SwiftyJSON', '4.3.0'
   pod 'Toast-Swift', '5.0.1'
   pod 'lottie-ios', '3.4.1'

@@ -143,7 +143,10 @@ extension LRChatBootChatViewController: UITableViewDelegate, UITableViewDataSour
 
 // MARK: ChatBootAIChatProtocol
 extension LRChatBootChatViewController: ChatBootAIChatProtocol {
-    func AI_animationComplete(isEnd: Bool) {
+    func AI_animationComplete(isEnd: Bool, cellMark: IndexPath?) {
+        if let _indexPath = cellMark {
+            self._chat_source[_indexPath.row].animationComplete = isEnd
+        }
         _can_send_question = isEnd
     }
     
@@ -214,7 +217,7 @@ extension LRChatBootChatViewController: ChatBootInputBoxProtocol {
         _chat_source.append(_chatModel)
         let _insertIndex: IndexPath = IndexPath(row: (_chat_source.count - 1), section: .zero)
         self.chatTableView.insertRows(at: [_insertIndex], with: UITableView.RowAnimation.fade)
-        self.chatTableView.scrollToRow(at: _insertIndex, at: UITableView.ScrollPosition.bottom, animated: true)
+        self.chatTableView.scrollToRow(at: _insertIndex, at: UITableView.ScrollPosition.top, animated: true)
 #if DEBUG
 #else
         self.speechSynthesizer.speechAIMessage(with: question)

@@ -116,18 +116,18 @@ PODS:
   - PromisesObjC (2.1.1)
   - Reachability (3.2)
   - SnapKit (5.6.0)
-  - SQLiteRepairKit (1.2.2):
-    - WCDBOptimizedSQLCipher (~> 1.2.0)
   - SwiftyJSON (4.3.0)
   - SwiftyStoreKit (0.16.1)
   - Toast-Swift (5.0.1)
   - UMCommon (7.3.7):
     - UMDevice
   - UMDevice (2.2.1)
-  - WCDB.swift (1.0.8.2):
-    - SQLiteRepairKit (~> 1.2.0)
-    - WCDBOptimizedSQLCipher (~> 1.2.0)
-  - WCDBOptimizedSQLCipher (1.2.1)
+  - WCDB.swift (2.0.1):
+    - WCDB.swift/no-arc (= 2.0.1)
+    - WCDBOptimizedSQLCipher (~> 1.4.0)
+  - WCDB.swift/no-arc (2.0.1):
+    - WCDBOptimizedSQLCipher (~> 1.4.0)
+  - WCDBOptimizedSQLCipher (1.4.0)
   - ZCycleView (1.0.4)
 
 DEPENDENCIES:
@@ -150,7 +150,7 @@ DEPENDENCIES:
   - Toast-Swift (= 5.0.1)
   - UMCommon (= 7.3.7)
   - UMDevice (= 2.2.1)
-  - WCDB.swift (= 1.0.8.2)
+  - WCDB.swift (= 2.0.1)
   - ZCycleView (= 1.0.4)
 
 SPEC REPOS:
@@ -183,7 +183,6 @@ SPEC REPOS:
     - PromisesObjC
     - Reachability
     - SnapKit
-    - SQLiteRepairKit
     - SwiftyJSON
     - SwiftyStoreKit
     - Toast-Swift
@@ -222,16 +221,15 @@ SPEC CHECKSUMS:
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
-  SQLiteRepairKit: 35aaae5a8838adb85f5b1eb4d796055be6060a4b
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   SwiftyStoreKit: 6b9c08810269f030586dac1fae8e75871a82e84a
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   UMCommon: 37fe35f498e92cf57bbb06a086f02915fc35f211
   UMDevice: 053478c4b4d7292f31f0a275c227d3c4007a5571
-  WCDB.swift: 05d509d7a0e60fb6e11c34eb7e4027c0fab5849f
-  WCDBOptimizedSQLCipher: baf44493b0c7a3d49e97bc5b64a3856f6428ddd1
+  WCDB.swift: 738cf27df8883c47ef732ea02c44e690da5bb66d
+  WCDBOptimizedSQLCipher: 55124a19f70180eb38163c959dd56695b8af8b60
   ZCycleView: 7826fb8439486339ed099b0979d9b564a2937ab0
 
-PODFILE CHECKSUM: a663af73bdecf85de0d4ce66f4a82f9b6c6abcf9
+PODFILE CHECKSUM: 5c909f577c65f4d33a3228ea368e7b48a66a27c7
 
 COCOAPODS: 1.11.3

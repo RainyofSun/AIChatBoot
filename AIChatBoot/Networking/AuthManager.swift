@@ -67,7 +67,7 @@ class AuthRefresh {
     public typealias TokenFailHandler = ((Error?) -> Void)
     public static func refreshToken(success:@escaping TokenSuccessHandler, fail:@escaping TokenFailHandler) {
         let params = ["apiKey": "com.smartclean.storagecleaner", "scope": "ios", "secretKey": NET_REQUEST_SECRET_KEY]
-        CleanTarget().requestAuth(params: params) { res, err in
+        AIChatTarget().requestAuth(params: params) { res, err in
             if let dict = res,
                let data = dict.data {
                 AuthManager.setAuth(with: data)

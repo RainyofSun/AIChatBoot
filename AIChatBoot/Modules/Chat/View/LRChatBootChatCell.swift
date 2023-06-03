@@ -47,15 +47,18 @@ class LRChatBootChatCell: UITableViewCell {
     // MARK: Public Methods
     public func reloadChatCellSource(chatModel: LRChatBootChatModel) {
         self.contentLab.attributedText = NSMutableAttributedString(string: chatModel.chatContent, attributes: [.font: UIFont.boldSystemFont(ofSize: 16), .foregroundColor: WhiteColor])
+        if chatModel.animationComplete {
+            return
+        }
         delay(0.2) {
-            self.chatAnimationDelegate?.AI_animationComplete(isEnd: false)
+            self.chatAnimationDelegate?.AI_animationComplete(isEnd: false, cellMark: self.cellMark)
             let animation = LRChatBootStringAppearOneByOneAnimation()
             animation.appearDuration = 0.01
             self.contentLab.animation_startAnimation(animation)
             animation.animationComplete = { [weak self] in
                 self?._text_animation = nil
                 self?.animationStop()
-                self?.chatAnimationDelegate?.AI_animationComplete(isEnd: true)
+                self?.chatAnimationDelegate?.AI_animationComplete(isEnd: true, cellMark: self?.cellMark)
             }
             self._text_animation = animation
         }
