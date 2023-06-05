@@ -17,14 +17,11 @@ class LRChatBootHomeViewController: LRChatBootBaseViewController, HideNavigation
         return LRChatBootHomeScrollView(frame: CGRectZero)
     }()
     
-    var label : UILabel!
-    
-    private var _charStr: String = "When you’re building apps, the entry barrier to some features, including text recognition, is high.When you’re building apps, the entry barrier to some features, including text recognition, is high.When you’re building apps, the entry barrier to some features, including text recognition, is high.When you’re building apps, the entry barrier to some features, including text recognition, is high.When you’re building apps, the entry barrier to some features, including text recognition, is high.When you’re building apps, the entry barrier to some features, including text recognition, is high."
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadHomeViews()
         layoutHomeViews()
+        testNet()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -77,20 +74,10 @@ private extension LRChatBootHomeViewController {
         }
     }
     
-    func testTextAnimation() {
-        label = UILabel(frame: CGRect(x:0,y:0,width:self.view.frame.size.width - 20,height: 0))
-        label.numberOfLines = 0
-        label.text = _charStr
-        label.isHidden = true
-        self.view.addSubview(label)
-        label.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(10)
-            make.top.equalToSuperview().offset(10)
-        }
-    }
-    
     func testNet() {
-        
+        AIChatTarget().requestAIQuestionCategory { response, error in
+            
+        }
     }
 }
 

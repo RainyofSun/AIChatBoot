@@ -166,6 +166,7 @@
 		7BD54B9B2A2D82FB00F416CC /* LRChatBootSubscribeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B9A2A2D82FB00F416CC /* LRChatBootSubscribeButton.swift */; };
 		7BD54BA02A2D91DD00F416CC /* LRAISubscribeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B9F2A2D91DD00F416CC /* LRAISubscribeProtocol.swift */; };
 		7BD54BA22A2DC3B700F416CC /* LRChatBootAILoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54BA12A2DC3B700F416CC /* LRChatBootAILoadingButton.swift */; };
+		7BD54BA42A2DD19000F416CC /* LRChatBootTopicCollectionDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54BA32A2DD19000F416CC /* LRChatBootTopicCollectionDB.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -331,6 +332,7 @@
 		7BD54B9A2A2D82FB00F416CC /* LRChatBootSubscribeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootSubscribeButton.swift; sourceTree = "<group>"; };
 		7BD54B9F2A2D91DD00F416CC /* LRAISubscribeProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRAISubscribeProtocol.swift; sourceTree = "<group>"; };
 		7BD54BA12A2DC3B700F416CC /* LRChatBootAILoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootAILoadingButton.swift; sourceTree = "<group>"; };
+		7BD54BA32A2DD19000F416CC /* LRChatBootTopicCollectionDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootTopicCollectionDB.swift; sourceTree = "<group>"; };
 		CC157583663A6FDC106A477F /* Pods_AIChatBoot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AIChatBoot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E743412651AA379D9D5AAA6D /* Pods-AIChatBoot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIChatBoot.release.xcconfig"; path = "Target Support Files/Pods-AIChatBoot/Pods-AIChatBoot.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1186,6 +1188,7 @@
 			children = (
 				7BD54B842A29F2B000F416CC /* LRChatBootChatDB.swift */,
 				7BD54B862A2AD53C00F416CC /* LRChatBootChatTopicDB.swift */,
+				7BD54BA32A2DD19000F416CC /* LRChatBootTopicCollectionDB.swift */,
 			);
 			path = ChatDB;
 			sourceTree = "<group>";
@@ -1509,6 +1512,7 @@
 				7BB4F9FD2A1F5873006E3AEF /* LRChatBootStringFlyAnimation.swift in Sources */,
 				7BB4F9C62A1F329B006E3AEF /* AuthManager.swift in Sources */,
 				7BB762202A2441DE00742C06 /* LRChatBootTopicModel.swift in Sources */,
+				7BD54BA42A2DD19000F416CC /* LRChatBootTopicCollectionDB.swift in Sources */,
 				7BB4F9962A1F1276006E3AEF /* LRAppColor.swift in Sources */,
 				7BB4F93F2A1F0E64006E3AEF /* LRIAPConstant.swift in Sources */,
 				7BB4F9662A1F1055006E3AEF /* LRUserDefaultADCacheKey.swift in Sources */,
