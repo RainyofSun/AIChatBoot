@@ -14,10 +14,10 @@ public enum RatingReviewRequestPath: String {
 }
 
 // 评分和反馈相关接口
-public class RatingReviewTarget: Target {
+class RatingReviewTarget: Target {
     
     /// 反馈类型列表 Query
-    func feedbackList(completeArray: @escaping Target.ComplateArrayHandler) {
+    func feedbackList(completeArray: @escaping CompleteArrayHandler) {
         requestWithTarget(method: .Query, path: RatingReviewRequestPath.feedbackList.rawValue, params: nil, urlParams: nil, onComplete: nil, onCompleteArray: completeArray)
     }
     
@@ -29,7 +29,7 @@ public class RatingReviewTarget: Target {
      type 反馈类型(作为反馈分类, default = 0, 先查看反馈类型)
      useId 反馈用户(无用户: default = 0)
      */
-    func addFeedBack(content: String, star: Float = .zero, type: Int, pics: [String]? = nil, feedbackId: Int = .zero, mail: String? = nil, complete: @escaping ComplateHandler) {
+    func addFeedBack(content: String, star: Float = .zero, type: Int, pics: [String]? = nil, feedbackId: Int = .zero, mail: String? = nil, complete: @escaping CompleteHandler) {
         let query: [String: Any] = ["content": content, "feedbackId": feedbackId, "star": star, "type": type, "userId": "", "pics": pics ?? [], "mail": mail ?? ""]
         requestWithTarget(method: RequestType.POST, path: RatingReviewRequestPath.commitFeedback.rawValue, params: query, urlParams: nil, onComplete: complete)
     }

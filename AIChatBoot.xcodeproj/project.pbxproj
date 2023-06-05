@@ -89,7 +89,6 @@
 		7BB4F9C22A1F329B006E3AEF /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB4F9B72A1F329B006E3AEF /* Networking.swift */; };
 		7BB4F9C32A1F329B006E3AEF /* DesAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB4F9B82A1F329B006E3AEF /* DesAlgorithm.swift */; };
 		7BB4F9C42A1F329B006E3AEF /* DecryptPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB4F9B92A1F329B006E3AEF /* DecryptPlugin.swift */; };
-		7BB4F9C52A1F329B006E3AEF /* DownloadTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB4F9BA2A1F329B006E3AEF /* DownloadTarget.swift */; };
 		7BB4F9C62A1F329B006E3AEF /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB4F9BB2A1F329B006E3AEF /* AuthManager.swift */; };
 		7BB4F9C72A1F329B006E3AEF /* AuthPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB4F9BC2A1F329B006E3AEF /* AuthPlugin.swift */; };
 		7BB4F9C92A1F329B006E3AEF /* AIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB4F9BE2A1F329B006E3AEF /* AIRequest.swift */; };
@@ -160,6 +159,13 @@
 		7BD54B822A29DE9500F416CC /* LRTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B812A29DE9500F416CC /* LRTextView.swift */; };
 		7BD54B852A29F2B000F416CC /* LRChatBootChatDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B842A29F2B000F416CC /* LRChatBootChatDB.swift */; };
 		7BD54B872A2AD53C00F416CC /* LRChatBootChatTopicDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B862A2AD53C00F416CC /* LRChatBootChatTopicDB.swift */; };
+		7BD54B902A2B441400F416CC /* LRChatBootChatTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B8F2A2B441400F416CC /* LRChatBootChatTarget.swift */; };
+		7BD54B932A2B487100F416CC /* LRChatBootNetConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B922A2B487100F416CC /* LRChatBootNetConstant.swift */; };
+		7BD54B962A2D7EB500F416CC /* LRChatBootSubscribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B952A2D7EB500F416CC /* LRChatBootSubscribeView.swift */; };
+		7BD54B982A2D7FDF00F416CC /* LRChatBootSubscribeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B972A2D7FDF00F416CC /* LRChatBootSubscribeItem.swift */; };
+		7BD54B9B2A2D82FB00F416CC /* LRChatBootSubscribeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B9A2A2D82FB00F416CC /* LRChatBootSubscribeButton.swift */; };
+		7BD54BA02A2D91DD00F416CC /* LRAISubscribeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B9F2A2D91DD00F416CC /* LRAISubscribeProtocol.swift */; };
+		7BD54BA22A2DC3B700F416CC /* LRChatBootAILoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54BA12A2DC3B700F416CC /* LRChatBootAILoadingButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -247,7 +253,6 @@
 		7BB4F9B72A1F329B006E3AEF /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		7BB4F9B82A1F329B006E3AEF /* DesAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesAlgorithm.swift; sourceTree = "<group>"; };
 		7BB4F9B92A1F329B006E3AEF /* DecryptPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecryptPlugin.swift; sourceTree = "<group>"; };
-		7BB4F9BA2A1F329B006E3AEF /* DownloadTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadTarget.swift; sourceTree = "<group>"; };
 		7BB4F9BB2A1F329B006E3AEF /* AuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		7BB4F9BC2A1F329B006E3AEF /* AuthPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthPlugin.swift; sourceTree = "<group>"; };
 		7BB4F9BE2A1F329B006E3AEF /* AIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AIRequest.swift; sourceTree = "<group>"; };
@@ -319,6 +324,13 @@
 		7BD54B812A29DE9500F416CC /* LRTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRTextView.swift; sourceTree = "<group>"; };
 		7BD54B842A29F2B000F416CC /* LRChatBootChatDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootChatDB.swift; sourceTree = "<group>"; };
 		7BD54B862A2AD53C00F416CC /* LRChatBootChatTopicDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootChatTopicDB.swift; sourceTree = "<group>"; };
+		7BD54B8F2A2B441400F416CC /* LRChatBootChatTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootChatTarget.swift; sourceTree = "<group>"; };
+		7BD54B922A2B487100F416CC /* LRChatBootNetConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootNetConstant.swift; sourceTree = "<group>"; };
+		7BD54B952A2D7EB500F416CC /* LRChatBootSubscribeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootSubscribeView.swift; sourceTree = "<group>"; };
+		7BD54B972A2D7FDF00F416CC /* LRChatBootSubscribeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootSubscribeItem.swift; sourceTree = "<group>"; };
+		7BD54B9A2A2D82FB00F416CC /* LRChatBootSubscribeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootSubscribeButton.swift; sourceTree = "<group>"; };
+		7BD54B9F2A2D91DD00F416CC /* LRAISubscribeProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRAISubscribeProtocol.swift; sourceTree = "<group>"; };
+		7BD54BA12A2DC3B700F416CC /* LRChatBootAILoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootAILoadingButton.swift; sourceTree = "<group>"; };
 		CC157583663A6FDC106A477F /* Pods_AIChatBoot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AIChatBoot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E743412651AA379D9D5AAA6D /* Pods-AIChatBoot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIChatBoot.release.xcconfig"; path = "Target Support Files/Pods-AIChatBoot/Pods-AIChatBoot.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -357,6 +369,8 @@
 		7BB129922A20B70D001AC401 /* Subscribe */ = {
 			isa = PBXGroup;
 			children = (
+				7BD54B9E2A2D91DD00F416CC /* Protocol */,
+				7BD54B942A2D7EA900F416CC /* View */,
 				7BB129932A20B717001AC401 /* VC */,
 			);
 			path = Subscribe;
@@ -731,6 +745,7 @@
 		7BB4F9A12A1F1430006E3AEF /* Widget */ = {
 			isa = PBXGroup;
 			children = (
+				7BD54B992A2D82E200F416CC /* UIButton */,
 				7BB762732A271CED00742C06 /* Web */,
 				7BB762572A25D6A100742C06 /* EmptyView */,
 				7BB1299E2A22C546001AC401 /* Alert */,
@@ -771,16 +786,12 @@
 		7BB4F9B32A1F329B006E3AEF /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				7BB4F9B42A1F329B006E3AEF /* Decrypt.swift */,
-				7BB4F9B52A1F329B006E3AEF /* Target.swift */,
-				7BB4F9B62A1F329B006E3AEF /* RatingReviewRequest.swift */,
-				7BB4F9B72A1F329B006E3AEF /* Networking.swift */,
-				7BB4F9B82A1F329B006E3AEF /* DesAlgorithm.swift */,
-				7BB4F9B92A1F329B006E3AEF /* DecryptPlugin.swift */,
-				7BB4F9BA2A1F329B006E3AEF /* DownloadTarget.swift */,
-				7BB4F9BB2A1F329B006E3AEF /* AuthManager.swift */,
-				7BB4F9BC2A1F329B006E3AEF /* AuthPlugin.swift */,
-				7BB4F9BE2A1F329B006E3AEF /* AIRequest.swift */,
+				7BD54B912A2B485F00F416CC /* Constant */,
+				7BD54B8E2A2B435700F416CC /* Net */,
+				7BD54B8D2A2B434700F416CC /* TokenAuth */,
+				7BD54B8C2A2B431800F416CC /* Request */,
+				7BD54B8B2A2B42E800F416CC /* Plugin */,
+				7BD54B8A2A2B428E00F416CC /* Target */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -1179,6 +1190,85 @@
 			path = ChatDB;
 			sourceTree = "<group>";
 		};
+		7BD54B8A2A2B428E00F416CC /* Target */ = {
+			isa = PBXGroup;
+			children = (
+				7BB4F9B52A1F329B006E3AEF /* Target.swift */,
+				7BD54B8F2A2B441400F416CC /* LRChatBootChatTarget.swift */,
+			);
+			path = Target;
+			sourceTree = "<group>";
+		};
+		7BD54B8B2A2B42E800F416CC /* Plugin */ = {
+			isa = PBXGroup;
+			children = (
+				7BB4F9B42A1F329B006E3AEF /* Decrypt.swift */,
+				7BB4F9B82A1F329B006E3AEF /* DesAlgorithm.swift */,
+				7BB4F9B92A1F329B006E3AEF /* DecryptPlugin.swift */,
+				7BB4F9BC2A1F329B006E3AEF /* AuthPlugin.swift */,
+			);
+			path = Plugin;
+			sourceTree = "<group>";
+		};
+		7BD54B8C2A2B431800F416CC /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				7BB4F9B62A1F329B006E3AEF /* RatingReviewRequest.swift */,
+				7BB4F9BE2A1F329B006E3AEF /* AIRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		7BD54B8D2A2B434700F416CC /* TokenAuth */ = {
+			isa = PBXGroup;
+			children = (
+				7BB4F9BB2A1F329B006E3AEF /* AuthManager.swift */,
+			);
+			path = TokenAuth;
+			sourceTree = "<group>";
+		};
+		7BD54B8E2A2B435700F416CC /* Net */ = {
+			isa = PBXGroup;
+			children = (
+				7BB4F9B72A1F329B006E3AEF /* Networking.swift */,
+			);
+			path = Net;
+			sourceTree = "<group>";
+		};
+		7BD54B912A2B485F00F416CC /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				7BD54B922A2B487100F416CC /* LRChatBootNetConstant.swift */,
+			);
+			path = Constant;
+			sourceTree = "<group>";
+		};
+		7BD54B942A2D7EA900F416CC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7BD54B952A2D7EB500F416CC /* LRChatBootSubscribeView.swift */,
+				7BD54B972A2D7FDF00F416CC /* LRChatBootSubscribeItem.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7BD54B992A2D82E200F416CC /* UIButton */ = {
+			isa = PBXGroup;
+			children = (
+				7BD54B9A2A2D82FB00F416CC /* LRChatBootSubscribeButton.swift */,
+				7BD54BA12A2DC3B700F416CC /* LRChatBootAILoadingButton.swift */,
+			);
+			path = UIButton;
+			sourceTree = "<group>";
+		};
+		7BD54B9E2A2D91DD00F416CC /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				7BD54B9F2A2D91DD00F416CC /* LRAISubscribeProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		BF5A486661E57EA6A59152C6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1315,6 +1405,7 @@
 				7BB4F9F22A1F44BC006E3AEF /* LRChatBootExploreViewController.swift in Sources */,
 				7BD54B852A29F2B000F416CC /* LRChatBootChatDB.swift in Sources */,
 				7BB4F9732A1F10DE006E3AEF /* DateFormatter+Extension.swift in Sources */,
+				7BD54B9B2A2D82FB00F416CC /* LRChatBootSubscribeButton.swift in Sources */,
 				7BB4F9BF2A1F329B006E3AEF /* Decrypt.swift in Sources */,
 				7BB762332A24945F00742C06 /* Int+Extension.swift in Sources */,
 				7BB4FA062A1F6116006E3AEF /* LRStartVideoViewController.swift in Sources */,
@@ -1330,8 +1421,8 @@
 				7BB7626F2A26F9E400742C06 /* LRAPPStoreReviewTool.swift in Sources */,
 				7BB7621D2A24381600742C06 /* LRChatBootTopicCell.swift in Sources */,
 				7BB4F9C92A1F329B006E3AEF /* AIRequest.swift in Sources */,
-				7BB4F9C52A1F329B006E3AEF /* DownloadTarget.swift in Sources */,
 				7BB4F9C12A1F329B006E3AEF /* RatingReviewRequest.swift in Sources */,
+				7BD54BA02A2D91DD00F416CC /* LRAISubscribeProtocol.swift in Sources */,
 				7BB7627C2A271CED00742C06 /* LRWebNavigationProtocol.swift in Sources */,
 				7BB4FA102A1F672A006E3AEF /* LRChatBootLauncherWindow.swift in Sources */,
 				7BB762542A25A13D00742C06 /* LRChatBootChatModel.swift in Sources */,
@@ -1354,6 +1445,7 @@
 				7BB1299A2A20B975001AC401 /* LRChatBootInputBoxView.swift in Sources */,
 				7BB4F9D42A1F3AE4006E3AEF /* Device.swift in Sources */,
 				7BB4F93E2A1F0E64006E3AEF /* LRUMengStatistics.swift in Sources */,
+				7BD54B932A2B487100F416CC /* LRChatBootNetConstant.swift in Sources */,
 				7BB4F9C42A1F329B006E3AEF /* DecryptPlugin.swift in Sources */,
 				7BB4F9482A1F0E64006E3AEF /* LRBundleResourceBase.swift in Sources */,
 				7BB4F9292A1F0E64006E3AEF /* LROpenADManager.swift in Sources */,
@@ -1368,6 +1460,7 @@
 				7BB129A22A22D2E4001AC401 /* LRChatBootRateAlert.swift in Sources */,
 				7BB4F99A2A1F1276006E3AEF /* LRAPPConstant.swift in Sources */,
 				7BB4F9812A1F11B5006E3AEF /* UIColor+Extension.swift in Sources */,
+				7BD54B982A2D7FDF00F416CC /* LRChatBootSubscribeItem.swift in Sources */,
 				7BB4F9DA2A1F4084006E3AEF /* LRNavigationViewController.swift in Sources */,
 				7BB4F98C2A1F120D006E3AEF /* String+Extension.swift in Sources */,
 				7BB4F9D02A1F346F006E3AEF /* HSFilePath.swift in Sources */,
@@ -1402,6 +1495,7 @@
 				7BB4F9A02A1F13B5006E3AEF /* NSObject+Extension.swift in Sources */,
 				7BB4F8E22A1EFAAF006E3AEF /* SceneDelegate.swift in Sources */,
 				7BB4F92C2A1F0E64006E3AEF /* LRNativeADView.swift in Sources */,
+				7BD54B962A2D7EB500F416CC /* LRChatBootSubscribeView.swift in Sources */,
 				7BB4F93D2A1F0E64006E3AEF /* LRAppsFlyerStatistics.swift in Sources */,
 				7BB4F94A2A1F0E64006E3AEF /* LRGCDTimer.swift in Sources */,
 				7BB129882A20A068001AC401 /* LRChatBootCustomNavView.swift in Sources */,
@@ -1427,6 +1521,7 @@
 				7BB4F9382A1F0E64006E3AEF /* LRFacebookStatistics.swift in Sources */,
 				7BB4F9882A1F11FA006E3AEF /* CALayer+FrameExtension.swift in Sources */,
 				7BB4F92D2A1F0E64006E3AEF /* LRCleanResultNativeADView.swift in Sources */,
+				7BD54BA22A2DC3B700F416CC /* LRChatBootAILoadingButton.swift in Sources */,
 				7BB4F9F92A1F546D006E3AEF /* LRChatBootStringAnimation.swift in Sources */,
 				7BB4FA072A1F6116006E3AEF /* LRStartLoopVideoViewController.swift in Sources */,
 				7BB762472A24AF4600742C06 /* LRChatBootExploreHorizationScrollview.swift in Sources */,
@@ -1434,6 +1529,7 @@
 				7BB4F9B22A1F324C006E3AEF /* CMTime+Extension.swift in Sources */,
 				7BB4F9972A1F1276006E3AEF /* LRAPPNotification.swift in Sources */,
 				7BD54B672A274F9300F416CC /* LRChatBootChatEnumFile.swift in Sources */,
+				7BD54B902A2B441400F416CC /* LRChatBootChatTarget.swift in Sources */,
 				7BD54B802A29DE6E00F416CC /* LRTextContentView.swift in Sources */,
 				7BB762282A24556200742C06 /* LRChatBootTopicRecommendationView.swift in Sources */,
 				7BB4F93B2A1F0E64006E3AEF /* LRFacebookStatisttics.swift in Sources */,

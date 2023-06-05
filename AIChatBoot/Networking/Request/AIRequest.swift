@@ -17,18 +17,20 @@ public enum AIChatRequestPath: String {
 }
 
 // 相关接口聚合
-public class AIChatTarget: Target {
+class AIChatTarget: Target {
     /// Auth接口
-    public func requestAuth(params: [String: Any]?, complete: @escaping ComplateHandler) {
+    public func requestAuth(params: [String: Any]?, complete: @escaping CompleteHandler) {
         requestWithTarget(method: .POST, path: AIChatRequestPath.auth.rawValue, params: params, urlParams: nil, onComplete: complete)
     }
 
+    /// 请求问题分类
+    
 }
 
-public class CleanDownloadTarget: DownloadTarget {
-    /// 下载充电动画
-    public func downloadChargingAnimationVideoFile(fileAddress: String, videoName: String, onComplete: @escaping DownloadComplateHandler) {
-        downWithTarget(videoName: videoName, method: RequestType.QueryDownLoad, path: fileAddress, params: nil, urlParams: nil, onComplete: onComplete)
+class AIChatQuestionTarget: LRChatBootChatTarget {
+    /// AI聊天消息
+    public func AIChatRequest(params: [String: Any], complete: @escaping CompleteHandler) {
+        
     }
 }
 

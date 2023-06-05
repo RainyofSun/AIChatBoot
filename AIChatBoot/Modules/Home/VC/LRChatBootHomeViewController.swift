@@ -36,18 +36,6 @@ class LRChatBootHomeViewController: LRChatBootBaseViewController, HideNavigation
         super.viewDidDisappear(animated)
         navView.pauseAnimation()
     }
-    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-////        self._mutableStr = NSMutableAttributedString(string: _charStr, attributes: [.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 15)])
-////        _textLayer.string = self._mutableStr
-////        _linkTimer = CADisplayLink(target: self, selector: #selector(dispalyAnimation))
-////        _linkTimer?.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
-//        label.isHidden = true
-//        let animation = LRChatBootStringAppearOneByOneAnimation()
-//        animation.appearDuration = 0.1
-////        let animation = LRChatBootStringAppearStreamingAnimation()
-//        self.label.animation_startAnimation(animation)
-//    }
 }
 
 // MARK: Private Methods
@@ -65,13 +53,15 @@ private extension LRChatBootHomeViewController {
         }
         
         self.scrollView.topicDelegate = self
-        self.scrollView.recommendTopicView.updateTopics(data: _bannerSource)
-        self.scrollView.likeTopicView.updateTopics(data: _bannerSource)
-        self.scrollView.hotTopicView.updateTopics(data: _bannerSource)
         
         self.navView.navDelegate = self
         self.view.addSubview(self.navView)
         self.view.addSubview(self.scrollView)
+        delay(1) {
+            self.scrollView.recommendTopicView.updateTopics(data: _bannerSource)
+            self.scrollView.likeTopicView.updateTopics(data: _bannerSource)
+            self.scrollView.hotTopicView.updateTopics(data: _bannerSource)
+        }
     }
     
     func layoutHomeViews() {

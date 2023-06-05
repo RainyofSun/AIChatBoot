@@ -7,21 +7,9 @@
 
 import Foundation
 import Moya
-public enum RequestType {
-    case GET, POST, Query, QueryDownLoad, POSTDownLoad
-}
 
-var localPath: String?
-var bodyParams: [String: Any] = [:]
-var urlParameters: [String: Any] = [:]
-var requestType: RequestType?
-
-
-public class Target {
-    public typealias ComplateHandler = (Dictionary<String, Any>?, Error?) -> (Void)
-    public typealias ComplateArrayHandler = ([Any]?, Error?) -> (Void)
-
-    public func requestWithTarget(method: RequestType, path: String, params: [String: Any]?, urlParams: [String: Any]?, onComplete: ComplateHandler? = nil, onCompleteArray: ComplateArrayHandler? = nil)  {
+class Target {
+    public func requestWithTarget(method: RequestType, path: String, params: [String: Any]?, urlParams: [String: Any]?, onComplete: CompleteHandler? = nil, onCompleteArray: CompleteArrayHandler? = nil)  {
         localPath = path
         bodyParams = params ?? [:]
         urlParameters = urlParams ?? [:]

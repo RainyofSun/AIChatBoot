@@ -53,3 +53,27 @@
 "settingContact" = "Contact Us";
 "settingRate" = "Rate Us";
 "settingRateAlert" = "Do you like our app? Please rate AI Chatbot.";
+
+// MARK: Subscribe
+"subscribeTitle" = "Unlock Unlimited \nAccess";
+"subscribeItem1" = "Higher word limit";
+"subscribeItem1Sub" = "Type longer messages";
+"subscribeItem2" = "No limits";
+"subscribeItem2Sub" = "Have unlimited dialogues";
+"subscribeItem3" = "No Ads";
+"subscribeItem3Sub" = "Enjoy ask AI without any ads";
+"subscribeWeekly" = "Weekly";
+"subscribePrice" = "$6.99";
+"subscribeTip" = "Try 3 days for Free. Cancel anytime.";
+"subscribeContinue" = "Continue";
+"subscribeService1" = "Terms of Use";
+"subscribeService2" = "Privacy Policy";
+"subscribeRestore" = "Restore";
+"subscribeNote" = "Payment will be charged to iTunes Account at confirmation of purchases. Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period. -Account will be charged for renewal within 24hours prior to the end of the current period, and identify the cost of the renewal. Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user’s Account Settings after purchase. -Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.";
+"badNet" = "Network Unreachable!";
+"noRestore" = "No recoverable items found!";
+"subscribeSuccess" = "Subscription succeeded";
+"failPurchase" = "Purchase failed, please contact customer service!";
+"subscribeExpiredRestore" = "Subscription expired!";
+"successRestore" = "Success to restore purchases!";
+"failRestore" = "Failed to restore purchases!";

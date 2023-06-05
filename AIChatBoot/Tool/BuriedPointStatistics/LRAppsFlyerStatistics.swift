@@ -85,11 +85,11 @@ class LRAppsFlyerStatistics: NSObject {
         if product == nil {
             if product == nil {
                 if productIdentifier == AppleWeekTrialIdentifier || productIdentifier == AppleWeekNoTrialIdentifier {
-                    _p = productWithIdentifier(productIdentifier, title: "TRANSLATOR2020 SUBSCRIPTION WEEK", price: DefaultAppleWeekPrice)
+                    _p = productWithIdentifier(productIdentifier, title: "", price: DefaultAppleWeekPrice)
                 } else if productIdentifier == AppleYearNoTrialIdentifier {
-                    _p = productWithIdentifier(productIdentifier, title: "TRANSLATOR2020 SUBSCRIPTION WEEK", price: DefaultAppleYearPrice)
+                    _p = productWithIdentifier(productIdentifier, title: "", price: DefaultAppleYearPrice)
                 } else {
-                    _p = productWithIdentifier(productIdentifier, title: "TRANSLATOR2020 SUBSCRIPTION WEEK", price: DefaultAppleWeekPrice)
+                    _p = productWithIdentifier(productIdentifier, title: "", price: DefaultAppleWeekPrice)
                 }
             } else {
                 _p = product!

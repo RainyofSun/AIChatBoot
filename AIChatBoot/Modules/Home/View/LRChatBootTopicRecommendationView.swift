@@ -23,7 +23,6 @@ class LRChatBootTopicRecommendationView: LRChatBootTopicClassificationView {
         self.backgroundColor = UIColor(hexString: "#C4D160")
         self.titleLab.attributedText = self.attributeTitle(title: LRLocalizableManager.localValue("homeRecommend"), imageName: "home_icon_You Might Like")
         cycleView.delegate = self
-        cycleView.itemSize = CGSize(width: UIScreen.main.bounds.width - 40, height: (UIScreen.main.bounds.width - 20) * 0.3)
         self.addSubview(cycleView)
     }
 
@@ -45,6 +44,7 @@ class LRChatBootTopicRecommendationView: LRChatBootTopicClassificationView {
     override func updateTopics(data: [LRChatBootTopicModel]) {
         _banner_source = data
         cycleView.reloadItemsCount(_banner_source?.count ?? .zero)
+        cycleView.itemSize = CGSize(width: UIScreen.main.bounds.width - 40, height: (UIScreen.main.bounds.width - 20) * 0.3)
     }
 }
 

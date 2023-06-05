@@ -76,9 +76,10 @@ class LRWebViewController: UIViewController {
         self.view.addSubview(customNavView)
         customNavView.navigationDelegate = self
         settingProgress()
+        let _top: CGFloat = (self.navigationController?.navigationBar.bounds.height ?? 44) + UIApplication.shared.statusBarFrame.height
         customNavView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
-            make.height.equalTo(self.navHeight() + self.statusBarHeight())
+            make.height.equalTo(_top)
         }
         webView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -90,7 +91,11 @@ class LRWebViewController: UIViewController {
         }
         progressView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(customNavView.snp.bottom)
+            if self.customNavView.isHidden {
+                make.top.equalToSuperview()
+            } else {
+                make.top.equalTo(customNavView.snp.bottom)
+            }
             make.height.equalTo(2)
         }
         if customNavView.isHidden {
