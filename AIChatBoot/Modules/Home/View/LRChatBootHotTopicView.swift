@@ -47,11 +47,12 @@ class LRChatBootHotTopicView: LRChatBootTopicClassificationView {
     override func updateTopics(data: [LRChatBootTopicModel]) {
         _hot_topic_source = data
         self.topicTabView.reloadData()
-        UIView.animate(withDuration: APPAnimationDurationTime) {
+        UIView.animate(withDuration: APPAnimationDurationTime, delay: .zero, options: UIView.AnimationOptions.curveEaseOut) {
             self.topicTabView.snp.updateConstraints { make in
                 make.height.equalTo(115 * data.count)
             }
             self.layoutIfNeeded()
+            self.superview?.layoutIfNeeded()
         }
     }
 }

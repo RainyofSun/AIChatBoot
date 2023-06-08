@@ -75,7 +75,10 @@ private extension LRChatBootHomeViewController {
     }
     
     func testNet() {
-        AIChatTarget().requestAIQuestionCategory { response, error in
+//        AIChatTarget().requestAIQuestionCategory { response, error in
+//
+//        }
+        AIChatTarget().requestAIQuestionList(params: ["categoryId": 3, "isAsc": "asc", "languageCode": "zh", "orderByColumn": "create_time", "pageNum": 1, "pageSize": 10]) { response, error in
             
         }
     }

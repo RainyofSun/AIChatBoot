@@ -23,21 +23,11 @@ class LRChatBootTopicRecommendationView: LRChatBootTopicClassificationView {
         self.backgroundColor = UIColor(hexString: "#C4D160")
         self.titleLab.attributedText = self.attributeTitle(title: LRLocalizableManager.localValue("homeRecommend"), imageName: "home_icon_You Might Like")
         cycleView.delegate = self
-        self.addSubview(cycleView)
     }
 
     private var _banner_source: [LRChatBootTopicModel]?
     private let BANNER_CELL_ID: String = "com.AI.banner.cell"
     
-    override func layoutTopicViews() {
-        super.layoutTopicViews()
-        cycleView.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLab.snp.bottom)
-            make.left.width.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-10)
-            make.height.equalTo(self.snp.width).multipliedBy(0.4)
-        }
-    }
     
     // MARK: Public Methods
     // 更新轮播图数据
@@ -45,6 +35,21 @@ class LRChatBootTopicRecommendationView: LRChatBootTopicClassificationView {
         _banner_source = data
         cycleView.reloadItemsCount(_banner_source?.count ?? .zero)
         cycleView.itemSize = CGSize(width: UIScreen.main.bounds.width - 40, height: (UIScreen.main.bounds.width - 20) * 0.3)
+        if self.cycleView.superview != nil {
+            return
+        }
+        
+        self.addSubview(cycleView)
+        UIView.animate(withDuration: APPAnimationDurationTime, delay: .zero, options: UIView.AnimationOptions.curveEaseOut) {
+            self.cycleView.snp.makeConstraints { make in
+                make.top.equalTo(self.titleLab.snp.bottom)
+                make.left.width.equalToSuperview()
+                make.bottom.equalToSuperview().offset(-10)
+                make.height.equalTo(self.snp.width).multipliedBy(0.4)
+            }
+            self.layoutIfNeeded()
+            self.superview?.layoutIfNeeded()
+        }
     }
 }
 

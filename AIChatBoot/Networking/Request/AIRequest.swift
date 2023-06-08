@@ -27,6 +27,11 @@ class AIChatTarget: Target {
     public func requestAIQuestionCategory(complete: @escaping CompleteArrayHandler) {
         requestWithTarget(method: .GET, path: AIChatRequestPath.AIQuestionCategory.rawValue, params: nil, urlParams: ["pageNum": 2, "pageSize": 10], onCompleteArray: complete)
     }
+    
+    /// 请求问题列表
+    public func requestAIQuestionList(params: [String: Any]?, complete: @escaping CompleteArrayHandler) {
+        requestWithTarget(method: .GET, path: AIChatRequestPath.AIQuestions.rawValue, params: nil, urlParams: params, onCompleteArray: complete)
+    }
 }
 
 class AIChatQuestionTarget: LRChatBootChatTarget {

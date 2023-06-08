@@ -154,6 +154,7 @@ extension LRChatBootChatViewController: ChatBootAIChatProtocol {
         guard let _p = cellMark else {
             return
         }
+        self._chat_source[_p.row].animationComplete = false
         self._chat_source[_p.row].chatContent = "开始刷新新的内容开始刷新新的内容开始刷新新的内容开始刷新新的内容"
         // TODO: 模拟网络延迟
         delay(3) {
