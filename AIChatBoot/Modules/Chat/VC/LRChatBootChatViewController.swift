@@ -36,7 +36,7 @@ class LRChatBootChatViewController: LRChatBootBaseViewController, HideNavigation
     // 外界进入时携带的话题
     private var _topicModel: LRChatBootTopicModel?
     
-    init(topicModel: LRChatBootTopicModel) {
+    init(topicModel: LRChatBootTopicModel?) {
         super.init(nibName: nil, bundle: nil)
         self._topicModel = topicModel
     }
@@ -107,6 +107,15 @@ private extension LRChatBootChatViewController {
             make.top.equalTo(self.navView.snp.bottom)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview().offset(-90)
+        }
+    }
+}
+
+// MARK: Net Request
+private extension LRChatBootChatViewController {
+    func requestQuestionToRoot() {
+        AIChatQuestionTarget().AIChatRequest(params: [:]) { (response: Dictionary<String, Any>?, error: Error?) in
+            
         }
     }
 }
@@ -214,7 +223,7 @@ extension LRChatBootChatViewController: ChatBootInputBoxProtocol {
         Log.debug("输入的问题 ------- \(question)")
         var _chatModel: LRChatBootChatModel = LRChatBootChatModel()
         _chatModel.chatContent = question
-        _chatModel.chatRole = .AI
+        _chatModel.chatRole = AIChatRole.init(rawValue: Int(arc4random())%3) ?? .AI
         _chat_source.append(_chatModel)
         let _insertIndex: IndexPath = IndexPath(row: (_chat_source.count - 1), section: .zero)
         self.chatTableView.insertRows(at: [_insertIndex], with: UITableView.RowAnimation.fade)

@@ -29,7 +29,7 @@ class LRChatBootHotTopicCell: UITableViewCell {
     private(set) lazy var contentLab: UILabel = {
         let lab = UILabel(frame: CGRectZero)
         lab.numberOfLines = 2
-        lab.textColor = UIColor(hexString: "#222222")
+        lab.textColor = WhiteColor
         lab.font = UIFont.boldSystemFont(ofSize: 18)
         return lab
     }()

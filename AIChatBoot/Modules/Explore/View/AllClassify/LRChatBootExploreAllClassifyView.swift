@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import MZRefresh
 
-class LRChatBootExploreAllClassifyView: UIView {
+class LRChatBootExploreAllClassifyView: UIView, ChatBootExploreDataSourceProtocol {
 
     open weak var topicDelegate: ChatBootTopicCellProtocol?
+    open weak var refreshDelegate: ChatBootExploreRefreshProtocol?
     
     private lazy var allClassifyTableView: UITableView = {
         let view = UITableView(frame: CGRectZero, style: UITableView.Style.plain)
@@ -18,12 +20,14 @@ class LRChatBootExploreAllClassifyView: UIView {
         return view
     }()
     
+    private var indicatorView: UIActivityIndicatorView?
     private let ALL_CLASSIFY_CELL_ID: String = "com.explore.allClassifyCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         loadAllClassifyViews()
         layoutAllClassifyViews()
+        self.indicatorView = buildActivityIndicatorView(activityViewStyle: UIActivityIndicatorView.Style.large)
     }
     
     required init?(coder: NSCoder) {
@@ -32,6 +36,32 @@ class LRChatBootExploreAllClassifyView: UIView {
     
     deinit {
         deallocPrint()
+    }
+    
+    // MARK: Public Methods
+    /// 更新数据
+    func AI_refreshQuestionGroupsUnderAllCategory(questions: [[LRChatBootTopicModel]]) {
+        AI_questionGroupsDataLoadFailed()
+        
+    }
+    
+    /// 加载更多数据
+    func AI_loadMoreQuestionGroupsUnderAllCategory(questions: [[LRChatBootTopicModel]]) {
+        
+    }
+    
+    /// 数据全部加载完毕
+    func AI_noMoreQuestionGroupsUnderAllCategory(questions: [[LRChatBootTopicModel]]) {
+        
+    }
+    
+    /// 数据加载失败
+    func AI_questionGroupsDataLoadFailed() {
+        self.allClassifyTableView.stopHeaderRefreshing()
+        if self.indicatorView != nil {
+            self.removeIndicatorView(activityView: self.indicatorView)
+            self.indicatorView = nil
+        }
     }
 }
 
@@ -42,7 +72,11 @@ private extension LRChatBootExploreAllClassifyView {
         self.allClassifyTableView.delegate = self
         self.allClassifyTableView.dataSource = self
         
+        self.allClassifyTableView.width = self.width
         self.allClassifyTableView.register(LRChatBootExploreAllClassifyCell.self, forCellReuseIdentifier: ALL_CLASSIFY_CELL_ID)
+        self.allClassifyTableView.setRefreshHeader(MZRefreshNormalHeader(type: .lineScaleParty, color: APPThemeColor, beginRefresh: { [weak self] in
+            self?.refreshDelegate?.AI_refreshCategoryDataSource(refreshView: self)
+        }))
         
         self.addSubview(self.allClassifyTableView)
     }

@@ -21,7 +21,7 @@ class LRChatBootHomeViewController: LRChatBootBaseViewController, HideNavigation
         super.viewDidLoad()
         loadHomeViews()
         layoutHomeViews()
-        testNet()
+        requestQuestionCategory()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -57,7 +57,6 @@ private extension LRChatBootHomeViewController {
         delay(1) {
             self.scrollView.recommendTopicView.updateTopics(data: _bannerSource)
             self.scrollView.likeTopicView.updateTopics(data: _bannerSource)
-            self.scrollView.hotTopicView.updateTopics(data: _bannerSource)
         }
     }
     
@@ -74,12 +73,30 @@ private extension LRChatBootHomeViewController {
         }
     }
     
-    func testNet() {
-//        AIChatTarget().requestAIQuestionCategory { response, error in
-//
-//        }
-        AIChatTarget().requestAIQuestionList(params: ["categoryId": 3, "isAsc": "asc", "languageCode": "zh", "orderByColumn": "create_time", "pageNum": 1, "pageSize": 10]) { response, error in
+    func requestQuestionCategory() {
+        AIChatTarget().requestAIQuestionCategory {[weak self] response, error in
+            guard error == nil else {
+                Log.error("问题分类请求错误 ---- \(error?.localizedDescription ?? "")")
+                return
+            }
             
+            guard let _categories = [LRChatBootTopicCategoryModel].deserialize(from: response) as? [LRChatBootTopicCategoryModel] else {
+                return
+            }
+            
+            // 取第一位作为热度话题
+            AIChatTarget().requestAIQuestionList(params: ["categoryId": _categories.first?.categoryId ?? 3, "languageCode": Locale.current.languageCode ?? "en"]) { response, error in
+                guard error == nil else {
+                    Log.error("请求问题列表失败 ---- \(error?.localizedDescription ?? "")")
+                    return
+                }
+                
+                guard let _question_list = [LRChatBootTopicModel].deserialize(from: response) as? [LRChatBootTopicModel] else {
+                    return
+                }
+                
+                self?.scrollView.hotTopicView.updateTopics(data: _question_list)
+            }
         }
     }
 }

@@ -53,7 +53,6 @@ private extension LRChatBootExploreClassifyCell {
     func loadClassifyCellViews() {
         self.backgroundColor = .clear
         self.contentView.backgroundColor = UIColor(hexString: "#1A1A1A")
-        self.classifyImageView.backgroundColor = UIColor.cyan.withAlphaComponent(0.4)
         self.cornerRadius = 20
         self.contentView.addSubview(self.classifyImageView)
         self.contentView.addSubview(self.contentLab)

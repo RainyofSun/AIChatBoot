@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MZRefresh
 
 class LRChatBootExploreViewController: LRChatBootBaseViewController, HideNavigationBarProtocol {
 
@@ -22,11 +23,14 @@ class LRChatBootExploreViewController: LRChatBootBaseViewController, HideNavigat
     }()
     
     private var _inputBoxView: LRChatBootInputBoxView?
+    // 当前分类的ID
+    private var _current_category_id: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadExploreViews()
         layoutExploreViews()
+        requestQuestionCategory()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -45,23 +49,18 @@ private extension LRChatBootExploreViewController {
     func loadExploreViews() {
         self.navView.navDelegate = self
         
-        let titles: [String] = ["All", "Have Fun", "Traning", "Traning English", "Education", "Fun", "Daily Lifestyle"]
-        var _source: [LRChatBootExploreModel] = []
-        titles.enumerated().forEach { (index, item) in
-            _source.append(LRChatBootExploreModel(topicClassification: item, topicClassificationID: String(index)))
-        }
-        
-        self.sliderView.setSliderItems(titles: _source)
-        self.horizationScrollView.contentSize = CGSize(width: self.view.width * CGFloat(titles.count), height: .zero)
-        self.horizationScrollView.buildTopClassifyView(classifyID: _source.first!.topicClassificationID ?? "", classifyViewIndex: .zero, topicDelegate: self)
-        
         self._inputBoxView = buildChatInputBoxView()
+        self._inputBoxView?.inputDelegate = self
         
         self.sliderView.sliderDelegate = self
         
         self.view.addSubview(self.navView)
         self.view.addSubview(self.sliderView)
         self.view.addSubview(self.horizationScrollView)
+        
+        // 全局配置刷新控件
+        MZRefreshConfig.shareInstance.setRefreshStatusColor(APPThemeColor)
+        MZRefreshConfig.shareInstance.setRefreshTimeColor(APPThemeColor)
     }
     
     func layoutExploreViews() {
@@ -84,6 +83,49 @@ private extension LRChatBootExploreViewController {
     }
 }
 
+// MARK: Net Request
+private extension LRChatBootExploreViewController {
+    func requestQuestionCategory() {
+        AIChatTarget().requestAIQuestionCategory {[weak self] response, error in
+            guard error == nil else {
+                Log.error("问题分类请求错误 ---- \(error?.localizedDescription ?? "")")
+                self?.sliderView.removeIndicatorView()
+                return
+            }
+            
+            guard var _categories = [LRChatBootTopicCategoryModel].deserialize(from: response) as? [LRChatBootTopicCategoryModel] else {
+                return
+            }
+            // 插入所有分类
+            let _firstCategory: LRChatBootTopicCategoryModel = LRChatBootTopicCategoryModel.buildAllCategoryModel()
+            self?._current_category_id = _firstCategory.categoryId
+            _categories.insert(_firstCategory, at: .zero)
+            // 更新分类
+            self?.sliderView.setSliderItems(titles: _categories)
+            // 设置contentSize
+            self?.horizationScrollView.contentSize = CGSize(width: UIScreen.main.bounds.width * CGFloat(_categories.count), height: .zero)
+            let _protocol = self?.horizationScrollView.buildTopClassifyView(classifyID: _firstCategory.categoryId ?? "", classifyViewIndex: .zero, topicDelegate: self, refreshDelegate: self)
+            _protocol?.AI_refreshQuestionGroupsUnderAllCategory(questions: [])
+        }
+    }
+    
+    func requestQuestionGroupsUnderCategory(categoryID: String, pageNum page: Int = 1, completeHandler: (@escaping (_ source: [LRChatBootTopicModel]?) -> Void)) {
+        AIChatTarget().requestAIQuestionList(params: ["categoryId": categoryID, "languageCode": Locale.current.languageCode ?? "en", "pageNum": page]) { response, error in
+            guard error == nil else {
+                Log.error("请求问题列表失败 ---- \(error?.localizedDescription ?? "")")
+                completeHandler(nil)
+                return
+            }
+            
+            guard let _question_list = [LRChatBootTopicModel].deserialize(from: response) as? [LRChatBootTopicModel] else {
+                return
+            }
+            
+            completeHandler(_question_list)
+        }
+    }
+}
+
 // MARK: CustomNavProtocol
 extension LRChatBootExploreViewController: CustomNavProtocol {
     func AI_goToSubscribePage() {
@@ -98,18 +140,85 @@ extension LRChatBootExploreViewController: CustomNavProtocol {
 // MARK: ChatBootTopicCellProtocol
 extension LRChatBootExploreViewController: ChatBootExploreSliderProtocol {
     func AI_selectedTopicClassification(classificationID: String?, classifyIndex: Int) {
+        self._current_category_id = classificationID
         guard let _id = classificationID else {
             return
         }
-        Log.debug("选择了分类ID === \(_id)")
-        self.horizationScrollView.buildTopClassifyView(classifyID: _id, classifyViewIndex: classifyIndex, topicDelegate: self)
+        
+        if let _classifyView = self.horizationScrollView.needBuildNewClassifyView(classifyViewIndex: classifyIndex) {
+            Log.debug("已创建分类 -------- \(_classifyView)")
+            self.horizationScrollView.scrollToSpecifiedCategory(classifyViewIndex: classifyIndex)
+            return
+        }
+        
+        self.horizationScrollView.buildTopClassifyView(classifyID: _id, classifyViewIndex: classifyIndex, topicDelegate: self, refreshDelegate: self)
     }
 }
 
 // MARK: ChatBootTopicCellProtocol
 extension LRChatBootExploreViewController: ChatBootTopicCellProtocol {
     func AI_selectedTopic(topicModel: LRChatBootTopicModel) {
-        Log.debug("选择了话题 -------- \(topicModel.topic ?? "")")
         self.navigationController?.pushViewController(LRChatBootChatViewController(topicModel: topicModel), animated: true)
+    }
+}
+
+// MARK: ChatBootExploreRefreshProtocol
+extension LRChatBootExploreViewController: ChatBootExploreRefreshProtocol {
+    func AI_refreshCategoryDataSource(refreshView: ChatBootExploreDataSourceProtocol?) {
+        guard let _id = self._current_category_id else {
+            refreshView?.AI_questionGroupsDataLoadFailed()
+            return
+        }
+        requestQuestionGroupsUnderCategory(categoryID: _id) { (source: [LRChatBootTopicModel]?) in
+            guard let _s = source else {
+                refreshView?.AI_questionGroupsDataLoadFailed()
+                return
+            }
+            
+            if refreshView is LRChatBootExploreClassifyView {
+                refreshView?.AI_refreshQuestionGroupsUnderCategory(questions: _s)
+            }
+            
+            if refreshView is LRChatBootExploreAllClassifyView {
+                refreshView?.AI_refreshQuestionGroupsUnderAllCategory(questions: [_s])
+            }
+        }
+    }
+    
+    func AI_loadMoreDataSource(refreshView: ChatBootExploreDataSourceProtocol?, currentPage: Int?) {
+        guard let _id = self._current_category_id else {
+            refreshView?.AI_questionGroupsDataLoadFailed()
+            return
+        }
+        
+        requestQuestionGroupsUnderCategory(categoryID: _id, pageNum: (currentPage ?? 1) + 1) { (source: [LRChatBootTopicModel]?) in
+            guard let _s = source else {
+                refreshView?.AI_questionGroupsDataLoadFailed()
+                return
+            }
+            
+            if refreshView is LRChatBootExploreClassifyView {
+                if _s.isEmpty {
+                    refreshView?.AI_noMoreQuestionGroupsUnderCategory(questions: _s)
+                } else {
+                    refreshView?.AI_loadMoreQuestionGroupsUnderCategory(questions: _s)
+                }
+            }
+            
+            if refreshView is LRChatBootExploreAllClassifyView {
+                if _s.isEmpty {
+                    refreshView?.AI_noMoreQuestionGroupsUnderAllCategory(questions: [_s])
+                } else {
+                    refreshView?.AI_loadMoreQuestionGroupsUnderAllCategory(questions: [_s])
+                }
+            }
+        }
+    }
+}
+
+// MARK: ChatBootInputBoxProtocol
+extension LRChatBootExploreViewController: ChatBootInputBoxProtocol {
+    func AI_inputBoxBeginEdit() {
+        self.navigationController?.pushViewController(LRChatBootChatViewController(topicModel: nil), animated: true)
     }
 }

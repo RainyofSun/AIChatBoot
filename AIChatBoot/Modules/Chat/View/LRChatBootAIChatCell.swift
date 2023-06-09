@@ -75,14 +75,13 @@ class LRChatBootAIChatCell: LRChatBootChatCell {
     }
     
     override func reloadChatCellSource(chatModel: LRChatBootChatModel) {
-        if !chatModel.animationComplete {
-            self.shareBtn.alpha = .zero
-            self.copyBtn.alpha = .zero
-            self.refreshBtn.alpha = .zero
-        }
+
+        self.shareBtn.alpha = CGFloat(NSNumber(booleanLiteral: chatModel.animationComplete).floatValue)
+        self.copyBtn.alpha = CGFloat(NSNumber(booleanLiteral: chatModel.animationComplete).floatValue)
+        self.refreshBtn.alpha = CGFloat(NSNumber(booleanLiteral: chatModel.animationComplete).floatValue)
+        
         if self.indicatorView != nil {
-            self.indicatorView?.stopAnimating()
-            self.indicatorView?.removeFromSuperview()
+            self.removeIndicatorView(activityView: self.indicatorView)
             self.indicatorView = nil
         }
         super.reloadChatCellSource(chatModel: chatModel)
@@ -128,19 +127,6 @@ private extension LRChatBootAIChatCell {
         attributeStr.insert(NSAttributedString(attachment: attachment), at: .zero)
         return attributeStr
     }
-    
-    func buildActivityIndicatorView() -> UIActivityIndicatorView {
-        let activityView = UIActivityIndicatorView.init(style: .medium)
-        activityView.hidesWhenStopped = true
-        activityView.startAnimating()
-        activityView.alpha = 1
-        activityView.color = .black
-        self.contentView.addSubview(activityView)
-        activityView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-        return activityView
-    }
 }
 
 // MARK: Target
@@ -151,7 +137,7 @@ private extension LRChatBootAIChatCell {
         sender.isEnabled = false
         self.copyBtn.isEnabled = false
         self.shareBtn.isEnabled = false
-        self.indicatorView = buildActivityIndicatorView()
+        self.indicatorView = buildActivityIndicatorView(activityViewColor: UIColor.black)
         self.AIChatDelegate?.AI_refreshAIReply(cellMark: self.cellMark)
     }
     

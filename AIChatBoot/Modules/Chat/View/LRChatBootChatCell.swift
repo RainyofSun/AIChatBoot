@@ -47,6 +47,7 @@ class LRChatBootChatCell: UITableViewCell {
     // MARK: Public Methods
     public func reloadChatCellSource(chatModel: LRChatBootChatModel) {
         self.contentLab.attributedText = NSMutableAttributedString(string: chatModel.chatContent, attributes: [.font: UIFont.boldSystemFont(ofSize: 16), .foregroundColor: WhiteColor])
+        self.contentLab.isHidden = !chatModel.animationComplete
         if chatModel.animationComplete {
             return
         }

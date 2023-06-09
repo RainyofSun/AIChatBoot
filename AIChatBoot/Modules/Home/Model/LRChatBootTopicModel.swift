@@ -11,29 +11,24 @@ import WCDBSwift
 
 struct LRChatBootTopicModel: HandyJSON, TableCodable {
     /// 话题分类
-    var topicClassification: String? {
-        didSet {
-            if let _t_c = topicClassification {
-                topicClassification = "# " + _t_c
-            }
-        }
-    }
+    var topicClassification: String?
     /// 话题分类ID
     var topicClassificationID: String?
     /// 话题热度
-    var hotTopics: String? {
-        didSet {
-            if let _hot = hotTopics {
-                hotTopics = _hot.digitalConversionMillionOrBillion()
-            }
-        }
-    }
+    var hotTopics: String?
     /// 话题内容
     var topic: String?
     /// 话题ID
     var topicID: String?
     /// 话题图片
     var topicImageURL: String?
+    /// 分类颜色
+    var categoryColor: String?
+    /// 是否喜欢话题
+    var likeIssue: Bool = false
+    /// 是否收藏
+    var collectIssue: Bool = false
+
     /// 聊天时间
     var chatTime: String = Date().yearMonthDay1FormatString
     /// 自建聊天记录ID(当存储聊天记录的时候,创建ID,以此ID来创建不同聊天记录的数据表, Date().millisecondTimestampStringValue)
@@ -59,5 +54,24 @@ struct LRChatBootTopicModel: HandyJSON, TableCodable {
         case topicID = "topicID"
         case topic = "topic"
         case chatRecordID = "chatRecordID"
+        case categoryColor = "categoryColor"
+        case likeIssue = "likeIssue"
+        case collectIssue = "collectIssue"
+    }
+    
+    mutating func mapping(mapper: HelpingMapper) {
+        // 替换字段
+        mapper.specify(property: &topicClassification, name: "categoryName") { (name: String) in
+            return "# " + name
+        }
+        mapper.specify(property: &topicClassificationID, name: "categoryId")
+        mapper.specify(property: &topic, name: "content.issueContent")
+        mapper.specify(property: &topicImageURL, name: "issuePromptImageUrl") { (url: String) in
+            return CDN_PREFFIX + url
+        }
+        mapper.specify(property: &topicID, name: "issueId")
+        mapper.specify(property: &hotTopics, name: "hotIssue") { (hot: String) in
+            return hot.digitalConversionMillionOrBillion()
+        }
     }
 }

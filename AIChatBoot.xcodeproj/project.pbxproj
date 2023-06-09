@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2C613378E739DA51D3C19A9A /* Pods_AIChatBoot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC157583663A6FDC106A477F /* Pods_AIChatBoot.framework */; };
+		7B0306892A31AE7B00B10823 /* LRChatBootTopicCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0306882A31AE7B00B10823 /* LRChatBootTopicCategoryModel.swift */; };
+		7B03068B2A31D15900B10823 /* UIView+IndicatorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B03068A2A31D15900B10823 /* UIView+IndicatorExtension.swift */; };
 		7BB129882A20A068001AC401 /* LRChatBootCustomNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB129872A20A068001AC401 /* LRChatBootCustomNavView.swift */; };
 		7BB1298D2A20A616001AC401 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BB1298F2A20A616001AC401 /* Localizable.strings */; };
 		7BB129912A20AC75001AC401 /* Arial Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7BB129902A20AC75001AC401 /* Arial Black.ttf */; };
@@ -126,7 +128,6 @@
 		7BB762332A24945F00742C06 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB762322A24945F00742C06 /* Int+Extension.swift */; };
 		7BB762362A249C1900742C06 /* LRChatBootExploreSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB762352A249C1900742C06 /* LRChatBootExploreSliderView.swift */; };
 		7BB762392A249CC100742C06 /* LRChatBootExploreSliderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB762382A249CC100742C06 /* LRChatBootExploreSliderItem.swift */; };
-		7BB7623C2A249DF100742C06 /* LRChatBootExploreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB7623B2A249DF100742C06 /* LRChatBootExploreModel.swift */; };
 		7BB7623F2A24A59D00742C06 /* LRChatBootExploreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB7623E2A24A59D00742C06 /* LRChatBootExploreProtocol.swift */; };
 		7BB762422A24A88900742C06 /* LRChatBootExploreAllClassifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB762412A24A88900742C06 /* LRChatBootExploreAllClassifyView.swift */; };
 		7BB762442A24AD0F00742C06 /* LRChatBootExploreAllClassifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB762432A24AD0F00742C06 /* LRChatBootExploreAllClassifyCell.swift */; };
@@ -171,6 +172,8 @@
 
 /* Begin PBXFileReference section */
 		5B6A1AD2E1C4AB5689E06ACF /* Pods-AIChatBoot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIChatBoot.debug.xcconfig"; path = "Target Support Files/Pods-AIChatBoot/Pods-AIChatBoot.debug.xcconfig"; sourceTree = "<group>"; };
+		7B0306882A31AE7B00B10823 /* LRChatBootTopicCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootTopicCategoryModel.swift; sourceTree = "<group>"; };
+		7B03068A2A31D15900B10823 /* UIView+IndicatorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+IndicatorExtension.swift"; sourceTree = "<group>"; };
 		7BB129872A20A068001AC401 /* LRChatBootCustomNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootCustomNavView.swift; sourceTree = "<group>"; };
 		7BB1298E2A20A616001AC401 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7BB129902A20AC75001AC401 /* Arial Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Arial Black.ttf"; sourceTree = "<group>"; };
@@ -292,7 +295,6 @@
 		7BB762322A24945F00742C06 /* Int+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		7BB762352A249C1900742C06 /* LRChatBootExploreSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootExploreSliderView.swift; sourceTree = "<group>"; };
 		7BB762382A249CC100742C06 /* LRChatBootExploreSliderItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootExploreSliderItem.swift; sourceTree = "<group>"; };
-		7BB7623B2A249DF100742C06 /* LRChatBootExploreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootExploreModel.swift; sourceTree = "<group>"; };
 		7BB7623E2A24A59D00742C06 /* LRChatBootExploreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootExploreProtocol.swift; sourceTree = "<group>"; };
 		7BB762412A24A88900742C06 /* LRChatBootExploreAllClassifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootExploreAllClassifyView.swift; sourceTree = "<group>"; };
 		7BB762432A24AD0F00742C06 /* LRChatBootExploreAllClassifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootExploreAllClassifyCell.swift; sourceTree = "<group>"; };
@@ -671,6 +673,7 @@
 			children = (
 				7BB4F9772A1F1103006E3AEF /* UIView+FrameExtension.swift */,
 				7BB4F9782A1F1103006E3AEF /* UIView+ShadowExtension.swift */,
+				7B03068A2A31D15900B10823 /* UIView+IndicatorExtension.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -861,7 +864,6 @@
 			isa = PBXGroup;
 			children = (
 				7BB7623D2A24A58800742C06 /* Protocol */,
-				7BB7623A2A249DDC00742C06 /* Model */,
 				7BB762342A249A9000742C06 /* View */,
 				7BB4F9E62A1F42E6006E3AEF /* VC */,
 			);
@@ -973,6 +975,7 @@
 			isa = PBXGroup;
 			children = (
 				7BB7621F2A2441DE00742C06 /* LRChatBootTopicModel.swift */,
+				7B0306882A31AE7B00B10823 /* LRChatBootTopicCategoryModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1003,14 +1006,6 @@
 				7BB762382A249CC100742C06 /* LRChatBootExploreSliderItem.swift */,
 			);
 			path = SliderView;
-			sourceTree = "<group>";
-		};
-		7BB7623A2A249DDC00742C06 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				7BB7623B2A249DF100742C06 /* LRChatBootExploreModel.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		7BB7623D2A24A58800742C06 /* Protocol */ = {
@@ -1411,6 +1406,7 @@
 				7BD54B9B2A2D82FB00F416CC /* LRChatBootSubscribeButton.swift in Sources */,
 				7BB4F9BF2A1F329B006E3AEF /* Decrypt.swift in Sources */,
 				7BB762332A24945F00742C06 /* Int+Extension.swift in Sources */,
+				7B0306892A31AE7B00B10823 /* LRChatBootTopicCategoryModel.swift in Sources */,
 				7BB4FA062A1F6116006E3AEF /* LRStartVideoViewController.swift in Sources */,
 				7BB4F9442A1F0E64006E3AEF /* Log.swift in Sources */,
 				7BB4F9452A1F0E64006E3AEF /* LRDDLogFileSub.swift in Sources */,
@@ -1443,7 +1439,6 @@
 				7BB4F9262A1F0E64006E3AEF /* LRRewardADManager.swift in Sources */,
 				7BD54B702A28847200F416CC /* LRChatBootChatCache.swift in Sources */,
 				7BB7622A2A247E4C00742C06 /* LRChatBootLikeTopicCell.swift in Sources */,
-				7BB7623C2A249DF100742C06 /* LRChatBootExploreModel.swift in Sources */,
 				7BB4F9AC2A1F320F006E3AEF /* LRNetStateManager.swift in Sources */,
 				7BB1299A2A20B975001AC401 /* LRChatBootInputBoxView.swift in Sources */,
 				7BB4F9D42A1F3AE4006E3AEF /* Device.swift in Sources */,
@@ -1458,6 +1453,7 @@
 				7BB4F93C2A1F0E64006E3AEF /* LRStatisticsEventKey.swift in Sources */,
 				7BB4F9332A1F0E64006E3AEF /* EmptyDataSetView+Extension.swift in Sources */,
 				7BB7627F2A271CED00742C06 /* LRWeakScriptMessage.swift in Sources */,
+				7B03068B2A31D15900B10823 /* UIView+IndicatorExtension.swift in Sources */,
 				7BB762512A259F7400742C06 /* LRChatBootChatRecordCell.swift in Sources */,
 				7BB4F92B2A1F0E64006E3AEF /* LRADKey.swift in Sources */,
 				7BB129A22A22D2E4001AC401 /* LRChatBootRateAlert.swift in Sources */,

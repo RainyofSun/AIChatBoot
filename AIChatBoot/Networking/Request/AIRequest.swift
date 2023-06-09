@@ -25,7 +25,7 @@ class AIChatTarget: Target {
 
     /// 请求问题分类
     public func requestAIQuestionCategory(complete: @escaping CompleteArrayHandler) {
-        requestWithTarget(method: .GET, path: AIChatRequestPath.AIQuestionCategory.rawValue, params: nil, urlParams: ["pageNum": 2, "pageSize": 10], onCompleteArray: complete)
+        requestWithTarget(method: .GET, path: AIChatRequestPath.AIQuestionCategory.rawValue, params: nil, urlParams: ["pageNum": 1, "pageSize": 10], onCompleteArray: complete)
     }
     
     /// 请求问题列表

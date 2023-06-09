@@ -8,10 +8,29 @@
 import UIKit
 
 protocol ChatBootInputBoxProtocol: AnyObject {
+    /// 编辑开始
+    func AI_inputBoxBeginEdit()
     /// 发送信息
     func AI_sendQuestion(question: String)
     /// 是否可以发送新的消息
     func AI_canSendNewQuestion() -> Bool
+}
+
+extension ChatBootInputBoxProtocol {
+    /// 是否可以进行编辑
+    func AI_inputBoxBeginEdit() {
+        
+    }
+    
+    /// 发送信息
+    func AI_sendQuestion(question: String) {
+        
+    }
+    
+    /// 是否可以发送新的消息
+    func AI_canSendNewQuestion() -> Bool {
+        return false
+    }
 }
 
 class LRChatBootInputBoxView: UIView {
@@ -186,6 +205,7 @@ private extension LRChatBootInputBoxView {
 extension LRChatBootInputBoxView: UITextViewDelegate {
 
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        self.inputDelegate?.AI_inputBoxBeginEdit()
         return canInput
     }
 

@@ -11,12 +11,14 @@ class LRChatBootExploreSliderView: UIScrollView {
 
     weak open var sliderDelegate: ChatBootExploreSliderProtocol?
     
+    private var indicatorView: UIActivityIndicatorView?
     private let TAG_INCREASE: Int = 1000
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         loadSliderViews()
         layoutSliderViews()
+        self.indicatorView = buildActivityIndicatorView()
     }
     
     required init?(coder: NSCoder) {
@@ -28,10 +30,11 @@ class LRChatBootExploreSliderView: UIScrollView {
     }
     
     // MARK: Public Methods
-    public func setSliderItems(titles: [LRChatBootExploreModel]) {
+    public func setSliderItems(titles: [LRChatBootTopicCategoryModel]) {
+        removeIndicatorView()
         var _lastItem: LRChatBootExploreSliderItem?
-        titles.enumerated().forEach { (index: Int, exploreModel: LRChatBootExploreModel) in
-            guard let _category = exploreModel.topicClassification else {
+        titles.enumerated().forEach { (index: Int, exploreModel: LRChatBootTopicCategoryModel) in
+            guard let _category = exploreModel.categoryName else {
                 return
             }
             let _item = LRChatBootExploreSliderItem(frame: CGRectZero)
@@ -39,7 +42,7 @@ class LRChatBootExploreSliderView: UIScrollView {
             _item.setTitle(_category, for: UIControl.State.selected)
             _item.isSelected = (index == .zero)
             _item.tag = index + TAG_INCREASE
-            _item.classificationID = exploreModel.topicClassificationID
+            _item.classificationID = exploreModel.categoryId
             _item.addTarget(self, action: #selector(clickSlider(sender: )), for: UIControl.Event.touchUpInside)
             
             var _textW = _category.textWidth(font: UIFont.boldSystemFont(ofSize: 17), height: 24) + 20
@@ -75,6 +78,13 @@ class LRChatBootExploreSliderView: UIScrollView {
                 }
             }
             _lastItem = _item
+        }
+    }
+    
+    public func removeIndicatorView() {
+        if self.indicatorView != nil {
+            self.removeIndicatorView(activityView: self.indicatorView)
+            self.indicatorView = nil
         }
     }
 }

@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import MZRefresh
 
-class LRChatBootExploreClassifyView: UIView {
+class LRChatBootExploreClassifyView: UIView, ChatBootExploreDataSourceProtocol {
 
     open weak var topicDelegate: ChatBootTopicCellProtocol?
+    open weak var refreshDelegate: ChatBootExploreRefreshProtocol?
     
     private lazy var flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -32,14 +34,17 @@ class LRChatBootExploreClassifyView: UIView {
         return collectionView
     }()
     
+    private var indicatorView: UIActivityIndicatorView?
     private let CLASSIFY_CELL_ID = "com.AI.calssify.cell"
     private var _category_source: [LRChatBootTopicModel]?
+    // 当前加载的页数
+    private var _current_page: Int = 1
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         loadClassifyViews()
         layoutClassifyViews()
-        testData()
+        self.indicatorView = buildActivityIndicatorView(activityViewStyle: UIActivityIndicatorView.Style.large)
     }
     
     required init?(coder: NSCoder) {
@@ -51,10 +56,42 @@ class LRChatBootExploreClassifyView: UIView {
     }
     
     // MARK: Public Methods
-    /// 更新分类话题
-    public func updateTopicCalssifySource(data: [LRChatBootTopicModel]) {
-        _category_source = data
+    /// 刷新数据
+    func AI_refreshQuestionGroupsUnderCategory(questions: [LRChatBootTopicModel]) {
+        // 重置页数
+        self._current_page = 1
+        AI_questionGroupsDataLoadFailed()
+        _category_source?.removeAll()
+        _category_source = questions
         self.topicCollectionView.reloadData()
+    }
+    
+    /// 加载更多数据
+    func AI_loadMoreQuestionGroupsUnderCategory(questions: [LRChatBootTopicModel]) {
+        self.topicCollectionView.stopFooterRefreshing()
+        // 页数累加
+        self._current_page += 1
+        _category_source?.append(contentsOf: questions)
+        self.topicCollectionView.reloadData()
+    }
+    
+    /// 数据全部加载完毕
+    func AI_noMoreQuestionGroupsUnderCategory(questions: [LRChatBootTopicModel]) {
+        self.topicCollectionView.stopFooterRefreshing()
+        // 页数累加
+        self._current_page += 1
+        _category_source?.append(contentsOf: questions)
+        self.topicCollectionView.stopHeaderRefreshingWithNoMoreData()
+    }
+    
+    /// 数据加载失败
+    func AI_questionGroupsDataLoadFailed() {
+        self.topicCollectionView.stopHeaderRefreshing()
+        self.topicCollectionView.stopFooterRefreshing()
+        if self.indicatorView != nil {
+            self.removeIndicatorView(activityView: self.indicatorView)
+            self.indicatorView = nil
+        }
     }
 }
 
@@ -62,27 +99,25 @@ class LRChatBootExploreClassifyView: UIView {
 private extension LRChatBootExploreClassifyView {
     func loadClassifyViews() {
         
+        self.topicCollectionView.width = self.width
         self.topicCollectionView.register(LRChatBootExploreClassifyCell.self, forCellWithReuseIdentifier: CLASSIFY_CELL_ID)
+        self.topicCollectionView.setRefreshHeader(MZRefreshNormalHeader(type: .lineScaleParty, color: APPThemeColor, beginRefresh: { [weak self] in
+            self?.refreshDelegate?.AI_refreshCategoryDataSource(refreshView: self)
+        }))
+        
+        self.topicCollectionView.setRefreshFooter(MZRefreshNormalFooter(type: .lineScaleParty, color: APPThemeColor, beginRefresh: { [weak self] in
+            self?.refreshDelegate?.AI_loadMoreDataSource(refreshView: self, currentPage: self?._current_page)
+        }))
+        
         
         self.addSubview(self.topicCollectionView)
+        self.topicCollectionView.startHeaderRefreshing(animated: true)
     }
     
     func layoutClassifyViews() {
         self.topicCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-    }
-    
-    // TODO: 测试数据
-    func testData() {
-        var _bannerSource: [LRChatBootTopicModel] = []
-        for _ in 0..<40 {
-            var _model = LRChatBootTopicModel()
-            _model.topic = "Acts as a form generator. Users are free to fill the catalog and conten…"
-            _model.topicClassification = "Education"
-            _bannerSource.append(_model)
-        }
-        self.updateTopicCalssifySource(data: _bannerSource)
     }
 }
 
