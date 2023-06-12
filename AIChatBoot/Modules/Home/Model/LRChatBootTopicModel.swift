@@ -28,7 +28,8 @@ struct LRChatBootTopicModel: HandyJSON, TableCodable {
     var likeIssue: Bool = false
     /// 是否收藏
     var collectIssue: Bool = false
-
+    /// 是否根据用户输入内容自动生成
+    var generatedBasedOnUserInput: Bool = false
     /// 聊天时间
     var chatTime: String = Date().yearMonthDay1FormatString
     /// 自建聊天记录ID(当存储聊天记录的时候,创建ID,以此ID来创建不同聊天记录的数据表, Date().millisecondTimestampStringValue)
@@ -57,6 +58,7 @@ struct LRChatBootTopicModel: HandyJSON, TableCodable {
         case categoryColor = "categoryColor"
         case likeIssue = "likeIssue"
         case collectIssue = "collectIssue"
+        case generatedBasedOnUserInput = "generatedBasedOnUserInput"
     }
     
     mutating func mapping(mapper: HelpingMapper) {
@@ -73,5 +75,15 @@ struct LRChatBootTopicModel: HandyJSON, TableCodable {
         mapper.specify(property: &hotTopics, name: "hotIssue") { (hot: String) in
             return hot.digitalConversionMillionOrBillion()
         }
+    }
+    
+    /// 根据用户输入内容自动生成
+    static func generatedBasedOnUserInput(topic: String) -> LRChatBootTopicModel {
+        var model = LRChatBootTopicModel()
+        model.topic = topic
+        // 自定话题ID ---> 生成话题的时间戳
+        model.topicID = Date().secondTimestampStringValue
+        model.generatedBasedOnUserInput = true
+        return model
     }
 }

@@ -84,6 +84,14 @@ class LRChatBootAIChatCell: LRChatBootChatCell {
             self.removeIndicatorView(activityView: self.indicatorView)
             self.indicatorView = nil
         }
+        
+        // 等待动画是否执行结束
+        self.AIChatDelegate?.AI_indicatorAnimationComplete(isWaitting: chatModel.isWaittingForAIReply, cellMark: self.cellMark)
+        if chatModel.isWaittingForAIReply {
+            self.indicatorView = buildActivityIndicatorView(activityViewColor: UIColor.black)
+            return
+        }
+        
         super.reloadChatCellSource(chatModel: chatModel)
     }
 }
@@ -137,7 +145,6 @@ private extension LRChatBootAIChatCell {
         sender.isEnabled = false
         self.copyBtn.isEnabled = false
         self.shareBtn.isEnabled = false
-        self.indicatorView = buildActivityIndicatorView(activityViewColor: UIColor.black)
         self.AIChatDelegate?.AI_refreshAIReply(cellMark: self.cellMark)
     }
     

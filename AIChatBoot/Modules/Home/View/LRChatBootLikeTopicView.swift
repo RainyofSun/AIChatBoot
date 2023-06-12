@@ -48,7 +48,7 @@ class LRChatBootLikeTopicView: LRChatBootTopicClassificationView {
         self.likeCollectionView.snp.makeConstraints { make in
             make.top.equalTo(self.titleLab.snp.bottom).offset(10)
             make.width.left.equalToSuperview()
-            make.height.equalTo(self.snp.width).multipliedBy(0.39)
+            make.height.equalTo(self.snp.width).multipliedBy(0.43)
             make.bottom.equalToSuperview().offset(-16)
         }
     }

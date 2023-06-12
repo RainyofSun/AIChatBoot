@@ -79,6 +79,7 @@ private extension LRChatBootExploreAllClassifyView {
         }))
         
         self.addSubview(self.allClassifyTableView)
+        self.allClassifyTableView.startHeaderRefreshing(animated: true)
     }
     
     func layoutAllClassifyViews() {

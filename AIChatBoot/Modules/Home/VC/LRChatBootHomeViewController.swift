@@ -17,6 +17,8 @@ class LRChatBootHomeViewController: LRChatBootBaseViewController, HideNavigation
         return LRChatBootHomeScrollView(frame: CGRectZero)
     }()
     
+    private weak var _indicatorView: UIActivityIndicatorView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadHomeViews()
@@ -39,25 +41,12 @@ class LRChatBootHomeViewController: LRChatBootBaseViewController, HideNavigation
 private extension LRChatBootHomeViewController {
     func loadHomeViews() {
         
-        var _bannerSource: [LRChatBootTopicModel] = []
-        for index in 0..<4 {
-            var _model = LRChatBootTopicModel()
-            _model.topic = "Acts as a form generator. Users are free to fill the catalog and conten…"
-            _model.hotTopics = "993390"
-            _model.topicClassification = "Education_____\(index)"
-            _model.topicClassificationID = "id_____\(index)"
-            _bannerSource.append(_model)
-        }
-        
         self.scrollView.topicDelegate = self
         
         self.navView.navDelegate = self
         self.view.addSubview(self.navView)
         self.view.addSubview(self.scrollView)
-        delay(1) {
-            self.scrollView.recommendTopicView.updateTopics(data: _bannerSource)
-            self.scrollView.likeTopicView.updateTopics(data: _bannerSource)
-        }
+        self._indicatorView = self.view.buildActivityIndicatorView(activityViewStyle: .large)
     }
     
     func layoutHomeViews() {
@@ -84,19 +73,70 @@ private extension LRChatBootHomeViewController {
                 return
             }
             
-            // 取第一位作为热度话题
-            AIChatTarget().requestAIQuestionList(params: ["categoryId": _categories.first?.categoryId ?? 3, "languageCode": Locale.current.languageCode ?? "en"]) { response, error in
-                guard error == nil else {
-                    Log.error("请求问题列表失败 ---- \(error?.localizedDescription ?? "")")
-                    return
+            let _group: DispatchGroup = DispatchGroup()
+            let workingQueue = DispatchQueue(label: "request_queue")
+            workingQueue.async {
+                _group.enter()
+                // 取第一位作为热度话题
+                AIChatTarget().requestAIQuestionList(params: ["categoryId": _categories.first?.categoryId ?? 3, "languageCode": Locale.current.languageCode ?? "en"]) { response, error in
+                    guard error == nil else {
+                        Log.error("请求问题列表失败 ---- \(error?.localizedDescription ?? "")")
+                        _group.leave()
+                        return
+                    }
+                    
+                    guard let _question_list = [LRChatBootTopicModel].deserialize(from: response) as? [LRChatBootTopicModel] else {
+                        _group.leave()
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self?.scrollView.hotTopicView.updateTopics(data: _question_list)
+                        _group.leave()
+                    }
                 }
-                
-                guard let _question_list = [LRChatBootTopicModel].deserialize(from: response) as? [LRChatBootTopicModel] else {
-                    return
-                }
-                
-                self?.scrollView.hotTopicView.updateTopics(data: _question_list)
             }
+            
+            _group.enter()
+            workingQueue.async {
+                // 取最后一位作为推荐话题
+                AIChatTarget().requestAIQuestionList(params: ["categoryId": _categories.last?.categoryId ?? 3, "languageCode": Locale.current.languageCode ?? "en"]) { response, error in
+                    guard error == nil else {
+                        Log.error("请求问题列表失败 ---- \(error?.localizedDescription ?? "")")
+                        _group.leave()
+                        return
+                    }
+                    
+                    guard let _question_list = [LRChatBootTopicModel].deserialize(from: response) as? [LRChatBootTopicModel] else {
+                        _group.leave()
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self?.scrollView.recommendTopicView.updateTopics(data: _question_list)
+                        _group.leave()
+                    }
+                }
+            }
+            
+            _group.notify(queue: workingQueue) {
+                DispatchQueue.main.async {
+                    self?.view.removeIndicatorView(activityView: self?._indicatorView)
+                    self?._indicatorView = nil
+                    self?.refreshCollectionData()
+                }
+            }
+        }
+    }
+    
+    // 刷新收藏数据
+    func refreshCollectionData() {
+        // 更新收藏数据
+        if let _collection_data = LRChatBootTopicCollectionDB.shared.findChatTopicRecords(), !_collection_data.isEmpty {
+            self.scrollView.addLikeViewToParentView()
+            self.scrollView.likeTopicView.updateTopics(data: _collection_data)
+        } else {
+            self.scrollView.removeLikeViewFromParentView()
         }
     }
 }
@@ -115,11 +155,20 @@ extension LRChatBootHomeViewController: CustomNavProtocol {
 // MARK: ChatBootTopicCellProtocol
 extension LRChatBootHomeViewController: ChatBootTopicCellProtocol {
     func AI_selectedTopicClassification(classificationID: String?) {
-        Log.debug("分类ID ===== \(classificationID)")
+        if let _index = self.tabBarController?.specialClassSubscript(className: "LRChatBootExploreViewController") {
+            guard let _nav = self.tabBarController?.children[_index] as? LRNavigationViewController, let _rootVC = _nav.topViewController as? LRChatBootExploreViewController else {
+                return
+            }
+            _rootVC.specifyCategory = classificationID
+            self.tabBarController?.selectedIndex = _index
+        }
     }
     
     func AI_selectedTopic(topicModel: LRChatBootTopicModel) {
-        Log.debug("选择了 ----- \(topicModel.topic ?? "")")
-        self.navigationController?.pushViewController(LRChatBootChatViewController(topicModel: topicModel), animated: true)
+        let _chatVC: LRChatBootChatViewController = LRChatBootChatViewController(topicModel: topicModel)
+        _chatVC.refreshCollectionDataClosure = { [weak self] in
+            self?.refreshCollectionData()
+        }
+        self.navigationController?.pushViewController(_chatVC, animated: true)
     }
 }

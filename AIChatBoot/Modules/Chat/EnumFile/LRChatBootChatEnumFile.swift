@@ -8,21 +8,24 @@
 import UIKit
 import WCDBSwift
 
-enum AIChatRole: Int, ColumnCodable,Equatable,CustomStringConvertible {
-    case User
-    case AI
-    case Assistant
+enum AIChatRole: String, ColumnCodable,Equatable,CustomStringConvertible {
+    /// 用户
+    case User = "user"
+    /// AI 机器人
+    case AI = "assistant"
+    /// 小助手
+    case Assistant = "system"
     
     static var columnType: ColumnType {
-        return .integer64
+        return .text
     }
     
     func archivedValue() -> FundamentalValue {
-        return FundamentalValue(Int64(self.rawValue))
+        return FundamentalValue(self.rawValue)
     }
     
     init?(with value: FundamentalValue) {
-        guard let object = AIChatRole(rawValue: Int(truncatingIfNeeded: value.int64Value)) else {
+        guard let object = AIChatRole(rawValue: value.stringValue) else {
             return nil
         }
         self = object

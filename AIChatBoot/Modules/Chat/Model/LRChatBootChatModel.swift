@@ -10,6 +10,8 @@ import HandyJSON
 import WCDBSwift
 
 struct LRChatBootChatModel: HandyJSON, TableCodable {
+    /// 提问的问题(仅在AI回答的模型下有值)
+    var askQuestion: String?
     /// 聊天内容
     var chatContent: String = ""
     /// 聊天时间
@@ -18,6 +20,8 @@ struct LRChatBootChatModel: HandyJSON, TableCodable {
     var chatRole: AIChatRole = .User
     /// 动画是否执行
     var animationComplete: Bool = false
+    /// 等待AI回答
+    var isWaittingForAIReply: Bool = true
     
     // MARK: DB
     /// 主键
@@ -35,5 +39,7 @@ struct LRChatBootChatModel: HandyJSON, TableCodable {
         case chatTime = "chatTime"
         case chatRole = "chatRole"
         case animationComplete = "animationComplete"
+        case isWaittingForAIReply = "isWaittingForAIReply"
+        case askQuestion = "askQuestion"
     }
 }

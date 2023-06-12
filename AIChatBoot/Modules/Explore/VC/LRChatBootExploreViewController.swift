@@ -10,6 +10,9 @@ import MZRefresh
 
 class LRChatBootExploreViewController: LRChatBootBaseViewController, HideNavigationBarProtocol {
 
+    // 外界跳转至指定的分类
+    open var specifyCategory: String?
+    
     private lazy var navView: LRChatBootCustomNavView = {
         return LRChatBootCustomNavView(frame: CGRectZero, navStyle: LRChatBootCustomNavView.CustomNavigationType.Explore)
     }()
@@ -104,8 +107,15 @@ private extension LRChatBootExploreViewController {
             self?.sliderView.setSliderItems(titles: _categories)
             // 设置contentSize
             self?.horizationScrollView.contentSize = CGSize(width: UIScreen.main.bounds.width * CGFloat(_categories.count), height: .zero)
-            let _protocol = self?.horizationScrollView.buildTopClassifyView(classifyID: _firstCategory.categoryId ?? "", classifyViewIndex: .zero, topicDelegate: self, refreshDelegate: self)
-            _protocol?.AI_refreshQuestionGroupsUnderAllCategory(questions: [])
+            // 如果外界有指定分类 跳转至指定分类
+            if let _s_c = self?.specifyCategory, let _index = _categories.firstIndex(where: {$0.categoryId == _s_c}) {
+                self?.sliderView.scrollToSpecifyItem(itemIndex: _index)
+            }
+            // 默认显示全部分类
+            else {
+                let _protocol = self?.horizationScrollView.buildTopClassifyView(classifyID: _firstCategory.categoryId ?? "", classifyViewIndex: .zero, topicDelegate: self, refreshDelegate: self)
+                _protocol?.AI_refreshQuestionGroupsUnderAllCategory(questions: [])
+            }
         }
     }
     

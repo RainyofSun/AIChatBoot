@@ -88,8 +88,8 @@ extension SceneDelegate: HSADFullScreenContentDelegate {
 private extension SceneDelegate {
     // ------------ 冷启动程序配置 ---------------------
     func coldStartProgramConfiguration() {
-        // AF激活
-        NotificationCenter.default.addObserver(self, selector: #selector(activeAF), name: UIApplication.didBecomeActiveNotification, object: nil)
+        // AppsFlyer 延迟等待ATT 授权
+        LRAppsFlyerStatistics.shared.waitForATTUserAuthorization()
         // 全局 toast 配置
         toastConfig()
         // 开启网络监测

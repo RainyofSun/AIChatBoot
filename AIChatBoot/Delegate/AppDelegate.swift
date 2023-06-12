@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        // AF激活
+        NotificationCenter.default.addObserver(self, selector: #selector(activeAF), name: UIApplication.didBecomeActiveNotification, object: nil)
         // Facebook统计初始化
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         initializationBuriedPointStatistics()

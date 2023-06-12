@@ -7,13 +7,15 @@
 /*
  TODO
  2.检测语音播放时内存问题
- 4.订阅页面UI
  6.数据库存储处理
  */
 import UIKit
 import Toast_Swift
 
 class LRChatBootChatViewController: LRChatBootBaseViewController, HideNavigationBarProtocol {
+    
+    // 外界刷新收藏数据
+    open var refreshCollectionDataClosure: (() -> Void)?
     
     private lazy var navView: LRChatBootChatNavView = {
         return LRChatBootChatNavView(frame: CGRectZero)
@@ -29,12 +31,20 @@ class LRChatBootChatViewController: LRChatBootBaseViewController, HideNavigation
     private let CHAT_CELL_ID: String = "com.AI.chat.cell"
     private let AI_CHAT_CELL_ID: String = "com.AI.AIchat.cell"
     private let ASSISTANT_CHAT_CELL_ID: String = "com.AI.assistant.cell"
-    
+    // 最大聊天内容承载(界面最大显示消息条数,超出后自动截取内容最大承载的1/2,存入数据库)
+    private let MAX_CHAT_COUNT: Int = 20
+    // 聊天内容数据
     private var _chat_source: [LRChatBootChatModel] = []
     // 是否可以发送新问题
     private var _can_send_question: Bool = true
+    // 是否在等待AI回答
+    private var _is_waitting_AI_reply: Bool = false
     // 外界进入时携带的话题
     private var _topicModel: LRChatBootTopicModel?
+    // 用户提问的问题组
+    private var _questionsByUser: [[String: String]] = []
+    // 是否收藏了主题
+    private var _collection_topic: Bool = false
     
     init(topicModel: LRChatBootTopicModel?) {
         super.init(nibName: nil, bundle: nil)
@@ -56,6 +66,12 @@ class LRChatBootChatViewController: LRChatBootBaseViewController, HideNavigation
         if let _t_m = _topicModel?.topic {
             self._inputBoxView?.setDefaultTopic(topic: _t_m)
         }
+        
+        // 查看是否已经收藏
+        if let _t_id = _topicModel?.topicID, let _ = LRChatBootTopicCollectionDB.shared.findChatTopicAccordingTopicID(topicID: _t_id) {
+            // 重置收藏按钮状态
+            self.navView.resetCollectionButtonStatus(isSelected: true)
+        }
     }
     
     override func willEnterBackground(notification: Notification) {
@@ -71,6 +87,7 @@ class LRChatBootChatViewController: LRChatBootBaseViewController, HideNavigation
     deinit {
         NotificationCenter.default.post(name: NSNotification.Name.APPExitChatRoomNotification, object: nil)
         self.speechSynthesizer.free()
+        self.refreshCollectionDataClosure?()
     }
 }
 
@@ -113,9 +130,32 @@ private extension LRChatBootChatViewController {
 
 // MARK: Net Request
 private extension LRChatBootChatViewController {
-    func requestQuestionToRoot() {
-        AIChatQuestionTarget().AIChatRequest(params: [:]) { (response: Dictionary<String, Any>?, error: Error?) in
+    func requestQuestionToRoot(questionContext: [[String: String]], cellMark: IndexPath) {
+        
+        AIChatQuestionTarget().AIChatRequest(chatParams: questionContext) { [weak self] (rootReplys: [Any]?, error: Error?) in
+            var _chatContent: String = ""
+            if error != nil {
+                _chatContent = LRLocalizableManager.localValue("chatError")
+            } else {
+                if let _replys = rootReplys as? [[String: Any]] {
+                    _replys.forEach { (item: [String : Any]) in
+                        if let _content = item["message"] as? [String: String], let _reply = _content["content"] {
+                            _chatContent += _reply
+                        }
+                    }
+                }
+            }
             
+            self?._chat_source[cellMark.row].chatContent = _chatContent
+            self?._chat_source[cellMark.row].isWaittingForAIReply = false
+
+            self?.chatTableView.reloadRows(at: [cellMark], with: UITableView.RowAnimation.fade)
+            self?.chatTableView.scrollToRow(at: cellMark, at: UITableView.ScrollPosition.top, animated: true)
+            self?.speechSynthesizer.speechAIMessage(with: _chatContent)
+#if DEBUG
+#else
+            self?.speechSynthesizer.speechAIMessage(with: _chatContent)
+#endif
         }
     }
 }
@@ -159,15 +199,26 @@ extension LRChatBootChatViewController: ChatBootAIChatProtocol {
         _can_send_question = isEnd
     }
     
+    func AI_indicatorAnimationComplete(isWaitting: Bool, cellMark: IndexPath?) {
+        self._is_waitting_AI_reply = isWaitting
+    }
+    
     func AI_refreshAIReply(cellMark: IndexPath?) {
         guard let _p = cellMark else {
             return
         }
+        
+        self._chat_source[_p.row].isWaittingForAIReply = true
         self._chat_source[_p.row].animationComplete = false
-        self._chat_source[_p.row].chatContent = "开始刷新新的内容开始刷新新的内容开始刷新新的内容开始刷新新的内容"
-        // TODO: 模拟网络延迟
-        delay(3) {
-            self.chatTableView.reloadRows(at: [_p], with: UITableView.RowAnimation.fade)
+        self._chat_source[_p.row].chatContent = ""
+        
+        self.chatTableView.reloadRows(at: [_p], with: UITableView.RowAnimation.fade)
+        
+        // 截取问题上下文
+        if let _lastIndex = self._questionsByUser.lastIndex(where: {$0["content"] == self._chat_source[_p.row].askQuestion}) {
+            let _questionContext: ArraySlice<[String: String]> = self._questionsByUser[0..._lastIndex]
+            // 发起提问
+            self.requestQuestionToRoot(questionContext: Array(_questionContext), cellMark: _p)
         }
     }
     
@@ -197,6 +248,11 @@ extension LRChatBootChatViewController: ChatBootChatNavProtocol {
     }
     
     func AI_collectTopic(animationView: UIButton) {
+        if self._topicModel == nil {
+            Log.info("聊天消息为空,不可以进行话题收藏 --------------")
+            self.view.makeToast(LRLocalizableManager.localValue("chatCollectionTip"))
+            return
+        }
         UIView.animate(withDuration: APPAnimationDurationTime) {
             animationView.transform = CGAffineTransform.init(scaleX: 0.3, y: 0.3)
         } completion: { _ in
@@ -205,6 +261,20 @@ extension LRChatBootChatViewController: ChatBootChatNavProtocol {
             } completion: { _ in
                 animationView.transform = CGAffineTransform.identity
                 animationView.isSelected = !animationView.isSelected
+                guard let _topicModel = self._topicModel  else {
+                    return
+                }
+                if animationView.isSelected {
+                    // 收藏话题到数据库
+                    LRChatBootTopicCollectionDB.shared.insertChatTopic(chatTopic: _topicModel)
+                } else {
+                    if let _dbModel = LRChatBootTopicCollectionDB.shared.findChatTopicAccordingTopicID(topicID: _topicModel.topicID ?? "") {
+                        // 数据库中删除已收藏的话题
+                        LRChatBootTopicCollectionDB.shared.deleteChatTopic(chatTopicDBID: _dbModel.identifier ?? .zero)
+                    } else {
+                        Log.error("收藏数据库中未找到此话题 ====== \(_topicModel.topicID ?? "")")
+                    }
+                }
             }
         }
     }
@@ -213,25 +283,62 @@ extension LRChatBootChatViewController: ChatBootChatNavProtocol {
 // MARK: ChatBootInputBoxProtocol
 extension LRChatBootChatViewController: ChatBootInputBoxProtocol {
     func AI_canSendNewQuestion() -> Bool {
-        if !_can_send_question {
+
+        // 等待AI回答过程中或者文字动画未结束不允许再次发送问题
+        if !_can_send_question || self._is_waitting_AI_reply {
             self.view.makeToast(LRLocalizableManager.localValue("chatTip"))
         }
-        return _can_send_question
+        
+        return _can_send_question && !_is_waitting_AI_reply
     }
     
     func AI_sendQuestion(question: String) {
-        Log.debug("输入的问题 ------- \(question)")
+        if self._chat_source.isEmpty && self._topicModel == nil {
+            // 根据用户提问的问题生成一个话题Model
+            self._topicModel = LRChatBootTopicModel.generatedBasedOnUserInput(topic: question)
+        }
+        
+        // 提问信息
         var _chatModel: LRChatBootChatModel = LRChatBootChatModel()
         _chatModel.chatContent = question
-        _chatModel.chatRole = AIChatRole.init(rawValue: Int(arc4random())%3) ?? .AI
+        _chatModel.chatRole = AIChatRole.User
         _chat_source.append(_chatModel)
-        let _insertIndex: IndexPath = IndexPath(row: (_chat_source.count - 1), section: .zero)
-        self.chatTableView.insertRows(at: [_insertIndex], with: UITableView.RowAnimation.fade)
-        self.chatTableView.scrollToRow(at: _insertIndex, at: UITableView.ScrollPosition.top, animated: true)
-#if DEBUG
-#else
-        self.speechSynthesizer.speechAIMessage(with: question)
-#endif
+        _questionsByUser.append(["content": question, "role": _chatModel.chatRole.rawValue])
+        let _askIndex: IndexPath = IndexPath(row: (_chat_source.count - 1), section: .zero)
+        
+        // AI回答消息预设
+        var _AIChatModel: LRChatBootChatModel = LRChatBootChatModel()
+        _AIChatModel.chatRole = AIChatRole.AI
+        _AIChatModel.askQuestion = question
+        _chat_source.append(_AIChatModel)
+        let _replyIndex: IndexPath = IndexPath(row: (_chat_source.count - 1), section: .zero)
+        self.chatTableView.insertRows(at: [_askIndex, _replyIndex], with: UITableView.RowAnimation.fade)
+        self.chatTableView.scrollToRow(at: _replyIndex, at: UITableView.ScrollPosition.top, animated: true)
+        
+        // 请求接口
+        self.requestQuestionToRoot(questionContext: self._questionsByUser, cellMark: _replyIndex)
+//        // 存库处理
+//        if self._chat_source.count >= MAX_CHAT_COUNT {
+//            // 截取最大承载的1/2
+//            let _subChatContent: [LRChatBootChatModel] = Array(self._chat_source.prefix(MAX_CHAT_COUNT/2))
+//            guard var _topicModel = self._topicModel else {
+//                return
+//            }
+//            if _topicModel.chatRecordID == nil {
+//                // 创建聊天记录ID
+//                _topicModel.chatRecordID = Date().millisecondTimestampStringValue
+//                // 存储话题到DB
+//                LRChatBootChatTopicDB.shared.insertChatTopic(chatTopic: _topicModel)
+//            }
+//            // 创建与话题对应的聊天记录表
+//            LRChatBootChatDB.shared.createChatRecordTable(topicId: _topicModel.chatRecordID ?? "")
+//            // 批量插入聊天记录
+//            LRChatBootChatDB.shared.batchInsertChatRecords(chats: _subChatContent, topicID: _topicModel.chatRecordID ?? "")
+//            self.chatTableView.reloadData()
+//        } else {
+//            self.chatTableView.insertRows(at: [_askIndex, _replyIndex], with: UITableView.RowAnimation.fade)
+//            self.chatTableView.scrollToRow(at: _replyIndex, at: UITableView.ScrollPosition.top, animated: true)
+//        }
     }
 }
 

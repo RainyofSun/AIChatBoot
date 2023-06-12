@@ -10,6 +10,7 @@
 		2C613378E739DA51D3C19A9A /* Pods_AIChatBoot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC157583663A6FDC106A477F /* Pods_AIChatBoot.framework */; };
 		7B0306892A31AE7B00B10823 /* LRChatBootTopicCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0306882A31AE7B00B10823 /* LRChatBootTopicCategoryModel.swift */; };
 		7B03068B2A31D15900B10823 /* UIView+IndicatorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B03068A2A31D15900B10823 /* UIView+IndicatorExtension.swift */; };
+		7B03710E2A3712C300B5796E /* UITabBarController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B03710D2A3712C300B5796E /* UITabBarController+Extension.swift */; };
 		7BB129882A20A068001AC401 /* LRChatBootCustomNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB129872A20A068001AC401 /* LRChatBootCustomNavView.swift */; };
 		7BB1298D2A20A616001AC401 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BB1298F2A20A616001AC401 /* Localizable.strings */; };
 		7BB129912A20AC75001AC401 /* Arial Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7BB129902A20AC75001AC401 /* Arial Black.ttf */; };
@@ -174,6 +175,7 @@
 		5B6A1AD2E1C4AB5689E06ACF /* Pods-AIChatBoot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIChatBoot.debug.xcconfig"; path = "Target Support Files/Pods-AIChatBoot/Pods-AIChatBoot.debug.xcconfig"; sourceTree = "<group>"; };
 		7B0306882A31AE7B00B10823 /* LRChatBootTopicCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootTopicCategoryModel.swift; sourceTree = "<group>"; };
 		7B03068A2A31D15900B10823 /* UIView+IndicatorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+IndicatorExtension.swift"; sourceTree = "<group>"; };
+		7B03710D2A3712C300B5796E /* UITabBarController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Extension.swift"; sourceTree = "<group>"; };
 		7BB129872A20A068001AC401 /* LRChatBootCustomNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootCustomNavView.swift; sourceTree = "<group>"; };
 		7BB1298E2A20A616001AC401 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7BB129902A20AC75001AC401 /* Arial Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Arial Black.ttf"; sourceTree = "<group>"; };
@@ -714,6 +716,7 @@
 		7BB4F98D2A1F121A006E3AEF /* UIViewController */ = {
 			isa = PBXGroup;
 			children = (
+				7B03710D2A3712C300B5796E /* UITabBarController+Extension.swift */,
 				7BB4F98E2A1F121A006E3AEF /* LRViewController+extension.swift */,
 				7BB129962A20B854001AC401 /* UIViewController+FunctionExtension.swift */,
 			);
@@ -1504,6 +1507,7 @@
 				7BB4F97D2A1F1103006E3AEF /* UIView+ShadowExtension.swift in Sources */,
 				7BB7624C2A25958D00742C06 /* LRChatBootExploreClassifyView.swift in Sources */,
 				7BB4F9432A1F0E64006E3AEF /* LRVideoPlayView.swift in Sources */,
+				7B03710E2A3712C300B5796E /* UITabBarController+Extension.swift in Sources */,
 				7BB4F9D62A1F3B0F006E3AEF /* SceneDelegateExtension.swift in Sources */,
 				7BB4F9FD2A1F5873006E3AEF /* LRChatBootStringFlyAnimation.swift in Sources */,
 				7BB4F9C62A1F329B006E3AEF /* AuthManager.swift in Sources */,

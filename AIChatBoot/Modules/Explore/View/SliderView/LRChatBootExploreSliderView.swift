@@ -81,6 +81,13 @@ class LRChatBootExploreSliderView: UIScrollView {
         }
     }
     
+    public func scrollToSpecifyItem(itemIndex: Int) {
+        guard let item = self.viewWithTag((itemIndex + TAG_INCREASE)) as? LRChatBootExploreSliderItem else {
+            return
+        }
+        self.clickSlider(sender: item)
+    }
+    
     public func removeIndicatorView() {
         if self.indicatorView != nil {
             self.removeIndicatorView(activityView: self.indicatorView)

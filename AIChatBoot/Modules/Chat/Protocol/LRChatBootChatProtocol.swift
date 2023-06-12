@@ -11,6 +11,15 @@ import UIKit
 protocol ChatBootAIChatAnimationProtocol: AnyObject {
     /// 动画执行结束
     func AI_animationComplete(isEnd: Bool, cellMark: IndexPath?)
+    /// 等待动画执行结束
+    func AI_indicatorAnimationComplete(isWaitting: Bool, cellMark: IndexPath?)
+}
+
+extension ChatBootAIChatAnimationProtocol {
+    /// 等待动画执行结束
+    func AI_indicatorAnimationComplete(isWaitting: Bool, cellMark: IndexPath?) {
+        
+    }
 }
 
 // MARK: AI回复的操作代理

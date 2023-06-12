@@ -19,8 +19,6 @@ class LRCleanDeviceTool: NSObject {
         if #available(iOS 14, *) {
             let status: ATTrackingManager.AuthorizationStatus = ATTrackingManager.trackingAuthorizationStatus
             if status == .notDetermined {
-                // AppsFlyer 延迟等待ATT 授权
-                LRAppsFlyerStatistics.shared.waitForATTUserAuthorization()
                 // 用户未选择或者未弹窗
                 let sem: DispatchSemaphore = DispatchSemaphore.init(value: 0)
                 ATTrackingManager.requestTrackingAuthorization { (status: ATTrackingManager.AuthorizationStatus) in
@@ -61,8 +59,6 @@ class LRCleanDeviceTool: NSObject {
     /// 获取当前IDFA不阻塞线程
     static func IDFARequest() {
         if #available(iOS 14, *) {
-            // AppsFlyer 延迟等待ATT 授权
-            LRAppsFlyerStatistics.shared.waitForATTUserAuthorization()
             let status: ATTrackingManager.AuthorizationStatus = ATTrackingManager.trackingAuthorizationStatus
             if status == .notDetermined {
                 // 用户未选择或者未弹窗

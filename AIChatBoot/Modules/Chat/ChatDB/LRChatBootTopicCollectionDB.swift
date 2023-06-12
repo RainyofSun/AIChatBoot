@@ -47,7 +47,7 @@ class LRChatBootTopicCollectionDB: NSObject {
     
     /// 删除某一条话题
     /// chatTopicDBID: 数据库主键ID
-    public func deleteChatTopic(chatTopicDBID: String) {
+    public func deleteChatTopic(chatTopicDBID: Int) {
         let db = Database(at: databaseFile)
         do {
             guard try db.isTableExists(AIChatTopicCollectionTable) else {
@@ -68,6 +68,18 @@ class LRChatBootTopicCollectionDB: NSObject {
             return allObjs
         } catch  {
             Log.error("get all topis error: \(error.localizedDescription)")
+        }
+        return nil
+    }
+    
+    /// 根据ID查询话题模型
+    public func findChatTopicAccordingTopicID(topicID: String) -> LRChatBootTopicModel? {
+        let db = Database(at: databaseFile)
+        do {
+            let topicModel: LRChatBootTopicModel? =  try db.getObject(fromTable: AIChatTopicCollectionTable, where: LRChatBootTopicModel.Properties.topicID == topicID, orderBy: [LRChatBootTopicModel.Properties.identifier.order(Order.descending)])
+            return topicModel
+        } catch  {
+            Log.error("get chat topic model error: \(error.localizedDescription)")
         }
         return nil
     }

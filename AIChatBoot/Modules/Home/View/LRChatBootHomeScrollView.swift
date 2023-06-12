@@ -42,6 +42,50 @@ class LRChatBootHomeScrollView: UIScrollView {
     deinit {
         deallocPrint()
     }
+    
+    // MARK: Public Methods
+    public func addLikeViewToParentView() {
+        if self.likeTopicView.superview != nil {
+            return
+        }
+        self.addSubview(self.likeTopicView)
+        
+        UIView.animate(withDuration: APPAnimationDurationTime, delay: .zero, options: UIView.AnimationOptions.curveEaseInOut) {
+            self.likeTopicView.snp.makeConstraints { make in
+                make.top.equalTo(self.recommendTopicView.snp.bottom).offset(10)
+                make.width.left.equalTo(self.recommendTopicView)
+            }
+            
+            self.hotTopicView.snp.remakeConstraints { make in
+                make.top.equalTo(self.likeTopicView.snp.bottom).offset(10)
+                make.width.left.equalTo(self.recommendTopicView)
+                make.bottom.equalToSuperview().offset(-10)
+            }
+            
+            self.layoutIfNeeded()
+            self.superview?.layoutIfNeeded()
+        }
+    }
+    
+    public func removeLikeViewFromParentView() {
+        if self.likeTopicView.constraints.isEmpty {
+            return
+        }
+        
+        UIView.animate(withDuration: APPAnimationDurationTime, delay: .zero, options: UIView.AnimationOptions.curveEaseInOut) {
+            self.likeTopicView.snp.removeConstraints()
+            self.hotTopicView.snp.remakeConstraints { make in
+                make.top.equalTo(self.recommendTopicView.snp.bottom).offset(10)
+                make.width.left.equalTo(self.recommendTopicView)
+                make.bottom.equalToSuperview().offset(-10)
+            }
+            
+            self.layoutIfNeeded()
+            self.superview?.layoutIfNeeded()
+        } completion: { _ in
+            self.likeTopicView.removeFromSuperview()
+        }
+    }
 }
 
 // MARK: Private Methods
@@ -51,7 +95,6 @@ private extension LRChatBootHomeScrollView {
         self.alwaysBounceVertical = true
         
         self.addSubview(self.recommendTopicView)
-        self.addSubview(self.likeTopicView)
         self.addSubview(self.hotTopicView)
     }
     
@@ -62,13 +105,8 @@ private extension LRChatBootHomeScrollView {
             make.width.equalTo(UIScreen.main.bounds.width - 20)
         }
         
-        self.likeTopicView.snp.makeConstraints { make in
-            make.top.equalTo(self.recommendTopicView.snp.bottom).offset(10)
-            make.width.left.equalTo(self.recommendTopicView)
-        }
-        
         self.hotTopicView.snp.makeConstraints { make in
-            make.top.equalTo(self.likeTopicView.snp.bottom).offset(10)
+            make.top.equalTo(self.recommendTopicView.snp.bottom).offset(10)
             make.width.left.equalTo(self.recommendTopicView)
             make.bottom.equalToSuperview().offset(-10)
         }

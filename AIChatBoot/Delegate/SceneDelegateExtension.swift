@@ -28,7 +28,10 @@ import SwiftyStoreKit
             LRAppsFlyerStatistics.shared.updateOriginalTransactionIdWithObject(receiptItem, product: LRIAPStoreManager.shared.product, receipt: _receipt, productIdentifier: receiptItem.productId)
         }
     }
-    
+}
+
+// MARK: Notification
+@objc extension AppDelegate {
     // 激活统计
     func activeAF() {
         // 激活facebook

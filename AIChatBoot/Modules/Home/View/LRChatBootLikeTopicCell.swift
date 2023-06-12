@@ -11,12 +11,13 @@ class LRChatBootLikeTopicCell: LRChatBootTopicCell {
     
     override func hookMethods() {
         super.hookMethods()
+        self.bgImageView.isHidden = false
         self.hotLab.isHidden = true
         self.contentLab.numberOfLines = 3
     }
     
-    override func reloadTopicCellSource(model: LRChatBootTopicModel) {
-        super.reloadTopicCellSource(model: model)
-        self.bgImageView.backgroundColor = .orange.withAlphaComponent(0.4)
+    override func reloadTopicCellSource(model: LRChatBootTopicModel, showBgImage: Bool = true) {
+        super.reloadTopicCellSource(model: model, showBgImage: showBgImage)
+        self.bgImageView.backgroundColor = UIColor(hexString: model.categoryColor ?? "#C4D160")
     }
 }

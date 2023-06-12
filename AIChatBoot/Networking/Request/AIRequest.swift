@@ -36,8 +36,20 @@ class AIChatTarget: Target {
 
 class AIChatQuestionTarget: LRChatBootChatTarget {
     /// AI聊天消息
-    public func AIChatRequest(params: [String: Any], complete: @escaping CompleteHandler) {
-        
+    public func AIChatRequest(chatParams: [[String: Any]], complete: @escaping ComplateArrayHandler) {
+        requestWithTarget(method: RequestType.POST, path: AIChatRequestPath.AIChat.rawValue, params: ["messages": chatParams], urlParams: nil) { (response: Dictionary<String, Any>?, error: Error?) in
+            guard error == nil else {
+                complete(nil, error)
+                return
+            }
+            
+            guard let _data = response?["choices"] as? [[String: Any]] else {
+                complete(nil, error)
+                return
+            }
+            
+            complete(_data, error)
+        }
     }
 }
 

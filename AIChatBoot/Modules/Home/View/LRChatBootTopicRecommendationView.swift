@@ -34,7 +34,7 @@ class LRChatBootTopicRecommendationView: LRChatBootTopicClassificationView {
     override func updateTopics(data: [LRChatBootTopicModel]) {
         _banner_source = data
         cycleView.reloadItemsCount(_banner_source?.count ?? .zero)
-        cycleView.itemSize = CGSize(width: UIScreen.main.bounds.width - 40, height: (UIScreen.main.bounds.width - 20) * 0.3)
+        cycleView.itemSize = CGSize(width: UIScreen.main.bounds.width - 40, height: (UIScreen.main.bounds.width - 20) * 0.35)
         if self.cycleView.superview != nil {
             return
         }
@@ -64,7 +64,7 @@ extension LRChatBootTopicRecommendationView: ZCycleViewProtocol {
             return UICollectionViewCell()
         }
         if let _model = _banner_source?[realIndex] {
-            cell.reloadTopicCellSource(model: _model)
+            cell.reloadTopicCellSource(model: _model, showBgImage: false)
         }
         cell.cellDelegate = self.topicDelegate
         return cell

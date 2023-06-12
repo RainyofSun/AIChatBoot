@@ -68,6 +68,10 @@ class LRChatBootChatNavView: UIView {
     public func resetMuteButtonStatus(isSelected: Bool) {
         self.volumBtn.isSelected = isSelected
     }
+    
+    public func resetCollectionButtonStatus(isSelected: Bool) {
+        self.likeBtn.isSelected = isSelected
+    }
 }
 
 // MARK: Private Methods

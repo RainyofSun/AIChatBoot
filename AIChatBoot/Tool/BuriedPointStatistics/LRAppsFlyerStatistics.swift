@@ -51,7 +51,7 @@ class LRAppsFlyerStatistics: NSObject {
     public func handlePushNotification(pushPayload : Dictionary<AnyHashable, Any>) {
         AppsFlyerLib.shared().handlePushNotification(pushPayload)
     }
-
+    
     /// 统计 通过 URL 点击进入app
     public func handleOpenUrl(_ url: URL?, options: [UIApplication.OpenURLOptionsKey : Any]) {
         AppsFlyerLib.shared().handleOpen(url, options: options)
@@ -191,6 +191,7 @@ extension LRAppsFlyerStatistics {
         AppsFlyerLib.shared().appsFlyerDevKey = APP_DEV_KEY
         AppsFlyerLib.shared().appleAppID = APPStoreAPPID
         AppsFlyerLib.shared().delegate = self
+        self.waitForATTUserAuthorization()
     }
     
     /// 根据ID、商品名、价格创建商品
@@ -208,14 +209,29 @@ extension LRAppsFlyerStatistics {
 
 extension LRAppsFlyerStatistics: AppsFlyerLibDelegate {
     func onConversionDataSuccess(_ conversionInfo: [AnyHashable : Any]) {
-        guard let status = conversionInfo["af_status"] as? String else { return }
-        // TODO 友盟统计
-        if status == "Non-organic" {
+        print("onConversionDataSuccess data:")
+        for (key, value) in conversionInfo {
+            print(key, ":", value)
+        }
+        if let conversionData = conversionInfo as NSDictionary? as! [String:Any]? {
             
-        } else if status == "Organic" {
-            
-        } else {
-            
+            if let status = conversionData["af_status"] as? String {
+                if (status == "Non-organic") {
+                    if let sourceID = conversionData["media_source"],
+                       let campaign = conversionData["campaign"] {
+                        print("[AFSDK] This is a Non-Organic install. Media source: \(sourceID)  Campaign: \(campaign)")
+                    }
+                } else {
+                    print("[AFSDK] This is an organic install.")
+                }
+                
+                if let is_first_launch = conversionData["is_first_launch"] as? Bool,
+                   is_first_launch {
+                    print("[AFSDK] First Launch")
+                } else {
+                    print("[AFSDK] Not First Launch")
+                }
+            }
         }
     }
     

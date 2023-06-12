@@ -56,7 +56,7 @@ class LRChatBootTopicCell: UICollectionViewCell {
     }
     
     // MARK: Public Methods
-    public func reloadTopicCellSource(model: LRChatBootTopicModel) {
+    public func reloadTopicCellSource(model: LRChatBootTopicModel, showBgImage: Bool = true) {
         if let _c_t = model.topicClassification {
             self._classification_id = model.topicClassificationID
             let _textW = _c_t.textWidth(font: self.tagBtn.titleLabel?.font ?? UIFont.boldSystemFont(ofSize: 13), height: 30) + 20
@@ -75,7 +75,7 @@ class LRChatBootTopicCell: UICollectionViewCell {
             self.contentLab.text = _c
         }
         
-        if let _url = model.topicImageURL {
+        if showBgImage, let _url = model.topicImageURL {
             self.bgImageView.kf.setImage(with: ImageResource(downloadURL: URL.init(string: _url)!), options: [.transition(.fade(APPAnimationDurationTime)), .backgroundDecode, .memoryCacheExpiration(.expired), .scaleFactor(UIScreen.main.scale)])
         }
     }

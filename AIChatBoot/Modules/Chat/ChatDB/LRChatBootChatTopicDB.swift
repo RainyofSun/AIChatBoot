@@ -85,6 +85,18 @@ class LRChatBootChatTopicDB: NSObject {
         }
         return nil
     }
+    
+    /// 根据ID查询话题模型
+    public func findChatTopicAccordingTopicID(topicID: String) -> LRChatBootTopicModel? {
+        let db = Database(at: databaseFile)
+        do {
+            let topicModel: LRChatBootTopicModel? =  try db.getObject(fromTable: AIChatTopicTable, where: LRChatBootTopicModel.Properties.topicID == topicID, orderBy: [LRChatBootTopicModel.Properties.identifier.order(Order.descending)])
+            return topicModel
+        } catch  {
+            Log.error("get chat topic model error: \(error.localizedDescription)")
+        }
+        return nil
+    }
 }
 
 // MARK: Private Methods
