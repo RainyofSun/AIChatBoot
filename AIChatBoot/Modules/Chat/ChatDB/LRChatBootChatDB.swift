@@ -40,6 +40,18 @@ class LRChatBootChatDB: NSObject {
         }
     }
     
+    /// 替换一条聊天记录
+    /// chat: 要插入的数据模型
+    /// topicId: 话题的唯一标识ID
+    public func replaceChatRecord(chat: LRChatBootChatModel, topicID: String) {
+        let dataBase = Database.init(at: databaseFile)
+        do {
+            try dataBase.insertOrReplace(chat, intoTable: (AIChatTable + topicID))
+        } catch {
+            Log.error("replace chat result error: \(error)")
+        }
+    }
+    
     /// 批量插入聊天记录
     /// chats: 要插入的数据模型
     /// topicId: 话题的唯一标识ID
@@ -73,6 +85,22 @@ class LRChatBootChatDB: NSObject {
         }
     }
     
+    // MARK: 改
+    /// 更新表中的消息
+    /// topicId: 话题的唯一标识ID
+    /// updateModel: 聊天序列号
+    public func updateChatModel(topicId: String, updateChatModel updateModel: LRChatBootChatModel) {
+        let db = Database(at: databaseFile)
+        let dbName = AIChatTable + topicId
+        do {
+            try db.update(table: dbName, on: [LRChatBootChatModel.Properties.isWaittingForAIReply,
+                                              LRChatBootChatModel.Properties.chatContent,
+                                              LRChatBootChatModel.Properties.animationComplete], with: updateModel, where: LRChatBootChatModel.Properties.identifier == updateModel.identifier ?? .zero)
+        } catch  {
+            Log.error("update chat model error = \(error.localizedDescription)")
+        }
+    }
+    
     // MARK: 查
     /// 获取表内容
     /// topicId: 话题的唯一标识ID
@@ -84,6 +112,21 @@ class LRChatBootChatDB: NSObject {
             return allObjs
         } catch  {
             Log.error("get all chats error: \(error.localizedDescription)")
+        }
+        return nil
+    }
+    
+    /// 获取聊天内容
+    /// topicId: 话题的唯一标识ID
+    /// serialNumber: 聊天序列号
+    public func findChatMessageBasedOnTopicID(topicID: String, chatSerialNumber serialNumber: Int) -> LRChatBootChatModel? {
+        let db = Database(at: databaseFile)
+        let dbName = AIChatTable + topicID
+        do {
+            let obj: LRChatBootChatModel? = try db.getObject(fromTable: dbName, where: LRChatBootChatModel.Properties.chatSerialNumber == serialNumber, orderBy: [LRChatBootChatModel.Properties.identifier.order(Order.ascending)])
+            return obj
+        } catch  {
+            Log.error("get chat error: \(error.localizedDescription)")
         }
         return nil
     }

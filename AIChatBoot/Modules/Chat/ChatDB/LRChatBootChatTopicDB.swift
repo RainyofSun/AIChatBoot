@@ -47,7 +47,7 @@ class LRChatBootChatTopicDB: NSObject {
     
     /// 删除某一条话题
     /// chatTopicDBID: 数据库主键ID
-    public func deleteChatTopic(chatTopicDBID: String) {
+    public func deleteChatTopic(chatTopicDBID: Int) {
         let db = Database(at: databaseFile)
         do {
             guard try db.isTableExists(AIChatTopicTable) else {
@@ -73,12 +73,24 @@ class LRChatBootChatTopicDB: NSObject {
         }
     }
     
+    // MARK: 改
+    /// 更新当前话题下消息数
+    /// topicModel 话题Model
+    public func updateTopicTotalNumberOfChatMessages(topicModel: LRChatBootTopicModel) {
+        let db = Database(at: databaseFile)
+        do {
+            try db.update(table: AIChatTopicTable, on: [LRChatBootTopicModel.Properties.totalNumberOfChatMessages], with: topicModel, where: LRChatBootTopicModel.Properties.identifier == topicModel.identifier ?? .zero)
+        } catch  {
+            Log.error("update chat number failed: \(error)")
+        }
+    }
+    
     // MARK: 查
     /// 获取表内容
     public func findChatTopicRecords() -> [LRChatBootTopicModel]? {
         let db = Database(at: databaseFile)
         do {
-            let allObjs: [LRChatBootTopicModel] = try db.getObjects(fromTable: AIChatTopicTable, orderBy: [LRChatBootTopicModel.Properties.identifier.order(Order.ascending)])
+            let allObjs: [LRChatBootTopicModel] = try db.getObjects(fromTable: AIChatTopicTable, orderBy: [LRChatBootTopicModel.Properties.identifier.order(Order.descending)])
             return allObjs
         } catch  {
             Log.error("get all topis error: \(error.localizedDescription)")
@@ -86,11 +98,11 @@ class LRChatBootChatTopicDB: NSObject {
         return nil
     }
     
-    /// 根据ID查询话题模型
-    public func findChatTopicAccordingTopicID(topicID: String) -> LRChatBootTopicModel? {
+    /// 根据聊天记录ID查询话题模型
+    public func findChatTopicAccordingTopicID(chatRecordID: String) -> LRChatBootTopicModel? {
         let db = Database(at: databaseFile)
         do {
-            let topicModel: LRChatBootTopicModel? =  try db.getObject(fromTable: AIChatTopicTable, where: LRChatBootTopicModel.Properties.topicID == topicID, orderBy: [LRChatBootTopicModel.Properties.identifier.order(Order.descending)])
+            let topicModel: LRChatBootTopicModel? =  try db.getObject(fromTable: AIChatTopicTable, where: LRChatBootTopicModel.Properties.chatRecordID == chatRecordID, orderBy: [LRChatBootTopicModel.Properties.identifier.order(Order.descending)])
             return topicModel
         } catch  {
             Log.error("get chat topic model error: \(error.localizedDescription)")

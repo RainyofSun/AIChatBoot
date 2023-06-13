@@ -35,6 +35,12 @@ class LRChatBootHomeViewController: LRChatBootBaseViewController, HideNavigation
         super.viewDidDisappear(animated)
         navView.pauseAnimation()
     }
+    
+    override func shouldBeSelected(_ tabbarController: LRTabbarViewController) -> Bool {
+        // 刷新收藏数据
+        self.refreshCollectionData()
+        return true
+    }
 }
 
 // MARK: Private Methods

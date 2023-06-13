@@ -51,13 +51,7 @@ class LRChatBootHistoryViewController: UIViewController, HideNavigationBarProtoc
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        testData()
-    }
-    
-    // MARK: Public Methods
-    public func reloadChatRecords(data: [LRChatBootTopicModel]) {
-        _chat_record_source = data
-        self.recordTableView.reloadData()
+        self.refreshHistoryTopicData()
     }
 }
 
@@ -94,7 +88,8 @@ private extension LRChatBootHistoryViewController {
         
         self.recordTableView.snp.makeConstraints { make in
             make.top.equalTo(self.navView.snp.bottom)
-            make.horizontalEdges.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-self.tabBarHeight())
         }
         
         self.deleteBtn.snp.makeConstraints { make in
@@ -112,6 +107,10 @@ private extension LRChatBootHistoryViewController {
         
         self._chat_record_delete.enumerated().forEach { (index: Int, item: LRChatBootTopicModel) in
             self._chat_record_source?.removeAll(where: {$0.topic == item.topic})
+            // 删除当前话题下的聊天记录
+            LRChatBootChatDB.shared.deleteAIChatTable(topicID: item.chatRecordID ?? "")
+            // 数据库移除
+            LRChatBootChatTopicDB.shared.deleteChatTopic(chatTopicDBID: item.identifier ?? .zero)
         }
         
         tableView.deleteRows(at: _deleteIndexPaths, with: UITableView.RowAnimation.fade)
@@ -124,18 +123,13 @@ private extension LRChatBootHistoryViewController {
         self.deleteBtn.backgroundColor = UIColor(hexString: "#1A1A1A")
     }
     
-    // TODO: Test Data
-    func testData() {
-        var _source: [LRChatBootTopicModel] = []
-        for index in 0..<10 {
-            var _model = LRChatBootTopicModel()
-            _model.topic = "Acts as a form generator. Users are free to fill the catalog and conten…"
-            _model.hotTopics = "993390"
-            _model.topicClassification = "Education_____\(index)"
-            _model.topicClassificationID = "id_____\(index)"
-            _source.append(_model)
+    func refreshHistoryTopicData() {
+        guard let _data = LRChatBootChatTopicDB.shared.findChatTopicRecords() else {
+            return
         }
-        self.reloadChatRecords(data: _source)
+
+        _chat_record_source = _data
+        self.recordTableView.reloadData()
         self.navView.canEdit = true
     }
 }
@@ -174,7 +168,12 @@ extension LRChatBootHistoryViewController: UITableViewDelegate, UITableViewDataS
             }
             alert.showAlert { [weak self] isOK in
                 if isOK {
-                    self?._chat_record_source?.remove(at: indexPath.row)
+                    if let _deleteModel = self?._chat_record_source?.remove(at: indexPath.row) {
+                        // 删除当前话题下的聊天记录
+                        LRChatBootChatDB.shared.deleteAIChatTable(topicID: _deleteModel.chatRecordID ?? "")
+                        // 数据库删除
+                        LRChatBootChatTopicDB.shared.deleteChatTopic(chatTopicDBID: _deleteModel.identifier ?? .zero)
+                    }
                     tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
                 }
                 completionHandler(isOK)
@@ -221,7 +220,7 @@ extension LRChatBootHistoryViewController: UITableViewDelegate, UITableViewDataS
         guard tableView.isEditing, let _selectedIndexPaths = tableView.indexPathsForSelectedRows, let _source = self._chat_record_source else {
             if let _topic_model = _chat_record_source?[indexPath.row] {
                 // 非编辑态时进入聊天
-                self.navigationController?.pushViewController(LRChatBootChatViewController(topicModel: _topic_model), animated: true)
+                self.navigationController?.pushViewController(LRChatBootChatViewController(topicModel: _topic_model, showDefaultQuestion: false), animated: true)
             }
             return
         }

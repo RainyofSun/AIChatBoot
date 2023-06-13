@@ -7,7 +7,6 @@
 /*
  TODO
  2.检测语音播放时内存问题
- 6.数据库存储处理
  */
 import UIKit
 import Toast_Swift
@@ -41,14 +40,24 @@ class LRChatBootChatViewController: LRChatBootBaseViewController, HideNavigation
     private var _is_waitting_AI_reply: Bool = false
     // 外界进入时携带的话题
     private var _topicModel: LRChatBootTopicModel?
+    // 是否要设置预设问题
+    private var _setDefaultQuestion: Bool?
     // 用户提问的问题组
     private var _questionsByUser: [[String: String]] = []
     // 是否收藏了主题
     private var _collection_topic: Bool = false
+    // 当前话题下聊天总数
+    private var _total_num_of_chat: Int = .zero
     
-    init(topicModel: LRChatBootTopicModel?) {
+    init(topicModel: LRChatBootTopicModel?, showDefaultQuestion show: Bool = true) {
         super.init(nibName: nil, bundle: nil)
         self._topicModel = topicModel
+        self._setDefaultQuestion = show
+        if let _total = topicModel?.totalNumberOfChatMessages {
+            self._total_num_of_chat = _total
+        }
+        
+        Log.debug("聊天记录 ID = \(topicModel?.chatRecordID ?? "") 总消息 = \(topicModel?.totalNumberOfChatMessages ?? .zero)")
     }
     
     required init?(coder: NSCoder) {
@@ -63,7 +72,7 @@ class LRChatBootChatViewController: LRChatBootBaseViewController, HideNavigation
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let _t_m = _topicModel?.topic {
+        if let _show = self._setDefaultQuestion, _show, let _t_m = _topicModel?.topic {
             self._inputBoxView?.setDefaultTopic(topic: _t_m)
         }
         
@@ -72,6 +81,9 @@ class LRChatBootChatViewController: LRChatBootBaseViewController, HideNavigation
             // 重置收藏按钮状态
             self.navView.resetCollectionButtonStatus(isSelected: true)
         }
+        
+        // 从本地加载聊天记录
+        self.loadChatRecordFromDB()
     }
     
     override func willEnterBackground(notification: Notification) {
@@ -126,11 +138,25 @@ private extension LRChatBootChatViewController {
             make.bottom.equalToSuperview().offset(-90)
         }
     }
+    
+    func loadChatRecordFromDB() {
+        guard let _r_id = self._topicModel?.chatRecordID, let _local_source = LRChatBootChatDB.shared.findChatRecordsBasedOnTopicID(topicID: _r_id) else {
+            return
+        }
+        _chat_source.append(contentsOf: _local_source)
+        _local_source.forEach { (chatModel: LRChatBootChatModel) in
+            if chatModel.chatRole == .User {
+                self._questionsByUser.append(chatModel.questionAskedByUser())
+            }
+        }
+        self.chatTableView.reloadData()
+        self.chatTableView.scrollToRow(at: IndexPath(row: (_chat_source.count - 1), section: .zero), at: UITableView.ScrollPosition.top, animated: true)
+    }
 }
 
 // MARK: Net Request
 private extension LRChatBootChatViewController {
-    func requestQuestionToRoot(questionContext: [[String: String]], cellMark: IndexPath) {
+    func requestQuestionToRoot(questionContext: [[String: String]], cellMark: IndexPath, requestComplete: @escaping (LRChatBootChatModel?) -> (Void)) {
         
         AIChatQuestionTarget().AIChatRequest(chatParams: questionContext) { [weak self] (rootReplys: [Any]?, error: Error?) in
             var _chatContent: String = ""
@@ -149,9 +175,10 @@ private extension LRChatBootChatViewController {
             self?._chat_source[cellMark.row].chatContent = _chatContent
             self?._chat_source[cellMark.row].isWaittingForAIReply = false
 
+            requestComplete(self?._chat_source[cellMark.row])
+            
             self?.chatTableView.reloadRows(at: [cellMark], with: UITableView.RowAnimation.fade)
             self?.chatTableView.scrollToRow(at: cellMark, at: UITableView.ScrollPosition.top, animated: true)
-            self?.speechSynthesizer.speechAIMessage(with: _chatContent)
 #if DEBUG
 #else
             self?.speechSynthesizer.speechAIMessage(with: _chatContent)
@@ -195,6 +222,18 @@ extension LRChatBootChatViewController: ChatBootAIChatProtocol {
     func AI_animationComplete(isEnd: Bool, cellMark: IndexPath?) {
         if let _indexPath = cellMark {
             self._chat_source[_indexPath.row].animationComplete = isEnd
+            // 动画结束之后更新数据库
+            if isEnd {
+                // 查看聊天消息库内是否能找到此条消息
+                if let _r_id = self._topicModel?.chatRecordID, var _dbChatModel = LRChatBootChatDB.shared.findChatMessageBasedOnTopicID(topicID: _r_id, chatSerialNumber: self._chat_source[_indexPath.row].chatSerialNumber) {
+                    // 修改数据库中聊天内容
+                    _dbChatModel.animationComplete = isEnd
+                    LRChatBootChatDB.shared.updateChatModel(topicId: _r_id, updateChatModel: _dbChatModel)
+                    Log.info("动画执行完毕 -- 更新消息 角色 = \(_dbChatModel.chatRole.rawValue) 消息编号 = \(_dbChatModel.chatSerialNumber)")
+                } else {
+                    Log.info("动画执行完毕 -- 更新消息 未在数据库中找到该消息, 消息编号 = \(self._chat_source[_indexPath.row].chatSerialNumber)")
+                }
+            }
         }
         _can_send_question = isEnd
     }
@@ -218,7 +257,21 @@ extension LRChatBootChatViewController: ChatBootAIChatProtocol {
         if let _lastIndex = self._questionsByUser.lastIndex(where: {$0["content"] == self._chat_source[_p.row].askQuestion}) {
             let _questionContext: ArraySlice<[String: String]> = self._questionsByUser[0..._lastIndex]
             // 发起提问
-            self.requestQuestionToRoot(questionContext: Array(_questionContext), cellMark: _p)
+            self.requestQuestionToRoot(questionContext: Array(_questionContext), cellMark: _p) { [weak self] (chatModel: LRChatBootChatModel?) in
+                guard let _chat = chatModel else {
+                    return
+                }
+                // 查看聊天消息库内是否能找到此条消息
+                if let _r_id = self?._topicModel?.chatRecordID, var _dbChatModel = LRChatBootChatDB.shared.findChatMessageBasedOnTopicID(topicID: _r_id, chatSerialNumber: _chat.chatSerialNumber) {
+                    // 修改数据库中聊天内容
+                    _dbChatModel.chatContent = _chat.chatContent
+                    _dbChatModel.isWaittingForAIReply = _chat.isWaittingForAIReply
+                    LRChatBootChatDB.shared.updateChatModel(topicId: _r_id, updateChatModel: _dbChatModel)
+                    Log.info("重新询问AI已有的问题 -- 更新消息 角色 = \(_dbChatModel.chatRole.rawValue) 消息编号 = \(_dbChatModel.chatSerialNumber)")
+                } else {
+                    Log.info("重新询问AI已有的问题 未在数据库中找到该消息, 消息编号 = \(_chat.chatSerialNumber)")
+                }
+            }
         }
     }
     
@@ -238,6 +291,22 @@ extension LRChatBootChatViewController: ChatBootChatNavProtocol {
         self._inputBoxView?.resignInputBoxFirstResponder()
         self.showExitChatRoomAlert { [weak self] isOK in
             if isOK {
+                // 更新聊天总数
+                if let _chat_id = self?._topicModel?.chatRecordID, var _db_m = LRChatBootChatTopicDB.shared.findChatTopicAccordingTopicID(chatRecordID: _chat_id) {
+                    if let _total = self?._total_num_of_chat, _total != .zero {
+                        _db_m.totalNumberOfChatMessages = _total
+                        LRChatBootChatTopicDB.shared.updateTopicTotalNumberOfChatMessages(topicModel: _db_m)
+                        Log.debug("更新聊天总数 ----------- \(_total) 条消息")
+                    }
+                }
+                
+                // 更新最后一条聊天消息状态
+                if let _chat_id = self?._topicModel?.chatRecordID, let _num = self?._total_num_of_chat, var _chat = LRChatBootChatDB.shared.findChatMessageBasedOnTopicID(topicID: _chat_id, chatSerialNumber: _num) {
+                    _chat.animationComplete = true
+                    _chat.isWaittingForAIReply = false
+                    LRChatBootChatDB.shared.updateChatModel(topicId: _chat_id, updateChatModel: _chat)
+                    Log.info("退出聊天界面, 更新数据库动画未执行完毕或者还未收到回复的消息 === 消息编号 = \(_chat.chatSerialNumber)")
+                }
                 self?.navigationController?.popViewController(animated: true)
             }
         }
@@ -298,54 +367,79 @@ extension LRChatBootChatViewController: ChatBootInputBoxProtocol {
             self._topicModel = LRChatBootTopicModel.generatedBasedOnUserInput(topic: question)
         }
         
+        // 消息数叠加
+        _total_num_of_chat += 1
+        
         // 提问信息
         var _chatModel: LRChatBootChatModel = LRChatBootChatModel()
         _chatModel.chatContent = question
         _chatModel.chatRole = AIChatRole.User
+        _chatModel.chatSerialNumber = _total_num_of_chat
         _chat_source.append(_chatModel)
         _questionsByUser.append(["content": question, "role": _chatModel.chatRole.rawValue])
         let _askIndex: IndexPath = IndexPath(row: (_chat_source.count - 1), section: .zero)
+
+        // 消息数叠加
+        _total_num_of_chat += 1
         
         // AI回答消息预设
         var _AIChatModel: LRChatBootChatModel = LRChatBootChatModel()
         _AIChatModel.chatRole = AIChatRole.AI
         _AIChatModel.askQuestion = question
+        _AIChatModel.chatSerialNumber = _total_num_of_chat
         _chat_source.append(_AIChatModel)
         let _replyIndex: IndexPath = IndexPath(row: (_chat_source.count - 1), section: .zero)
         self.chatTableView.insertRows(at: [_askIndex, _replyIndex], with: UITableView.RowAnimation.fade)
         self.chatTableView.scrollToRow(at: _replyIndex, at: UITableView.ScrollPosition.top, animated: true)
         
         // 请求接口
-        self.requestQuestionToRoot(questionContext: self._questionsByUser, cellMark: _replyIndex)
-//        // 存库处理
-//        if self._chat_source.count >= MAX_CHAT_COUNT {
-//            // 截取最大承载的1/2
-//            let _subChatContent: [LRChatBootChatModel] = Array(self._chat_source.prefix(MAX_CHAT_COUNT/2))
-//            guard var _topicModel = self._topicModel else {
-//                return
-//            }
-//            if _topicModel.chatRecordID == nil {
-//                // 创建聊天记录ID
-//                _topicModel.chatRecordID = Date().millisecondTimestampStringValue
-//                // 存储话题到DB
-//                LRChatBootChatTopicDB.shared.insertChatTopic(chatTopic: _topicModel)
-//            }
-//            // 创建与话题对应的聊天记录表
-//            LRChatBootChatDB.shared.createChatRecordTable(topicId: _topicModel.chatRecordID ?? "")
-//            // 批量插入聊天记录
-//            LRChatBootChatDB.shared.batchInsertChatRecords(chats: _subChatContent, topicID: _topicModel.chatRecordID ?? "")
-//            self.chatTableView.reloadData()
-//        } else {
-//            self.chatTableView.insertRows(at: [_askIndex, _replyIndex], with: UITableView.RowAnimation.fade)
-//            self.chatTableView.scrollToRow(at: _replyIndex, at: UITableView.ScrollPosition.top, animated: true)
-//        }
+        self.requestQuestionToRoot(questionContext: self._questionsByUser, cellMark: _replyIndex) { [weak self] (chatModel: LRChatBootChatModel?) in
+            guard let _chat = chatModel, let _recordID = self?._topicModel?.chatRecordID else {
+                return
+            }
+            Log.debug("收到AI回复 角色 = \(_chat.chatRole.rawValue) 单条插入 消息编号 = \(_chat.chatSerialNumber)")
+            LRChatBootChatDB.shared.insertChatRecord(chat: _chat, topicID: _recordID)
+        }
+        
+        // 存库处理
+        guard var _t_m = self._topicModel else {
+            return
+        }
+        
+        /*
+         聊天记录入库规则:
+         Now:
+         1.发送一条消息入库一条消息
+         优化:
+         1.判断是否达到了规定的上限值,若达到,截取上限值的一半,存入数据库
+         2.用户退出界面的时候,存储容器内剩余的聊天记录
+         */
+        // 用户不是从预设问题进入, 提问问题1条以上即可执行入库/用户从预设问题进入,需要提问2条以上问题才可以执行入库
+        if (_t_m.generatedBasedOnUserInput && _questionsByUser.count >= 1) ||
+            (!_t_m.generatedBasedOnUserInput && _questionsByUser.count >= 2) {
+            if _t_m.chatRecordID == nil {
+                // 创建聊天记录ID
+                _t_m.chatRecordID = Date().millisecondTimestampStringValue
+                // 存储话题到DB
+                LRChatBootChatTopicDB.shared.insertChatTopic(chatTopic: _t_m)
+                // 创建与话题对应的聊天记录表
+                LRChatBootChatDB.shared.createChatRecordTable(topicId: _t_m.chatRecordID ?? "")
+                // 存储消息
+                LRChatBootChatDB.shared.batchInsertChatRecords(chats: Array(self._chat_source.prefix(self._chat_source.count - 1)), topicID: _t_m.chatRecordID ?? "")
+                self._topicModel = _t_m
+                Log.debug("发送消息 批量插入数据库 消息数目 = \(self._chat_source.count)")
+            } else {
+                // 单条插入数据库
+                LRChatBootChatDB.shared.insertChatRecord(chat: _chatModel, topicID: _t_m.chatRecordID ?? "")
+                Log.debug("发送消息 角色 = \(_chatModel.chatRole.rawValue) 单条插入 消息编号 = \(_chatModel.chatSerialNumber)")
+            }
+        }
     }
 }
 
 // MARK: ChatBootSpeechProtocol
 extension LRChatBootChatViewController: ChatBootSpeechProtocol {
     func AI_speechStart() {
-        Log.debug("----- 开始播放语音 ------")
         NotificationCenter.default.post(name: NSNotification.Name.APPChatReadyPlayNotification, object: nil)
     }
     

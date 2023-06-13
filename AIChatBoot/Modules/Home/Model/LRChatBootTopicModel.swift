@@ -34,6 +34,8 @@ struct LRChatBootTopicModel: HandyJSON, TableCodable {
     var chatTime: String = Date().yearMonthDay1FormatString
     /// 自建聊天记录ID(当存储聊天记录的时候,创建ID,以此ID来创建不同聊天记录的数据表, Date().millisecondTimestampStringValue)
     var chatRecordID: String?
+    /// 当前话题下总共有多少条聊天消息(用于判断下拉加载更多聊天消息,是否拉取完毕)
+    var totalNumberOfChatMessages: Int = .zero
     
     // MARK: DB
     /// 主键
@@ -59,6 +61,7 @@ struct LRChatBootTopicModel: HandyJSON, TableCodable {
         case likeIssue = "likeIssue"
         case collectIssue = "collectIssue"
         case generatedBasedOnUserInput = "generatedBasedOnUserInput"
+        case totalNumberOfChatMessages = "totalNumberOfChatMessages"
     }
     
     mutating func mapping(mapper: HelpingMapper) {

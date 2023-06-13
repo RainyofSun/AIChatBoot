@@ -79,6 +79,7 @@ class LRChatBootAIChatCell: LRChatBootChatCell {
         self.shareBtn.alpha = CGFloat(NSNumber(booleanLiteral: chatModel.animationComplete).floatValue)
         self.copyBtn.alpha = CGFloat(NSNumber(booleanLiteral: chatModel.animationComplete).floatValue)
         self.refreshBtn.alpha = CGFloat(NSNumber(booleanLiteral: chatModel.animationComplete).floatValue)
+        self.contentLab.attributedText = nil
         
         if self.indicatorView != nil {
             self.removeIndicatorView(activityView: self.indicatorView)

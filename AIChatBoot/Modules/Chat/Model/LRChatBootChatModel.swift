@@ -22,6 +22,8 @@ struct LRChatBootChatModel: HandyJSON, TableCodable {
     var animationComplete: Bool = false
     /// 等待AI回答
     var isWaittingForAIReply: Bool = true
+    /// 聊天消息编号(用于下拉加载更多消息使用)
+    var chatSerialNumber: Int = .zero
     
     // MARK: DB
     /// 主键
@@ -41,5 +43,12 @@ struct LRChatBootChatModel: HandyJSON, TableCodable {
         case animationComplete = "animationComplete"
         case isWaittingForAIReply = "isWaittingForAIReply"
         case askQuestion = "askQuestion"
+        case chatSerialNumber = "chatSerialNumber"
+    }
+    
+    // MARK: Public Methods
+    /// 抽取用户询问的问题
+    public func questionAskedByUser() -> [String: String] {
+        return ["content": self.chatContent, "role": self.chatRole.rawValue]
     }
 }
