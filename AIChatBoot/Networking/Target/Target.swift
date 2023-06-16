@@ -28,7 +28,7 @@ class Target {
 
 extension Target: TargetType {
     
-    public var baseURL: URL { return URL(string: "https://api.conhor.pro")! }
+    public var baseURL: URL { return URL(string: HOST_URL)! }
     
     public var path: String {
         return localPath ?? ""

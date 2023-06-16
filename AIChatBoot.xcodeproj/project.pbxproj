@@ -11,6 +11,9 @@
 		7B0306892A31AE7B00B10823 /* LRChatBootTopicCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0306882A31AE7B00B10823 /* LRChatBootTopicCategoryModel.swift */; };
 		7B03068B2A31D15900B10823 /* UIView+IndicatorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B03068A2A31D15900B10823 /* UIView+IndicatorExtension.swift */; };
 		7B03710E2A3712C300B5796E /* UITabBarController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B03710D2A3712C300B5796E /* UITabBarController+Extension.swift */; };
+		7B03711A2A39AD8A00B5796E /* LRChatBootQuestionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0371192A39AD8A00B5796E /* LRChatBootQuestionRequest.swift */; };
+		7B03711F2A39CBED00B5796E /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B03711E2A39CBED00B5796E /* UITableView+Extension.swift */; };
+		7B0371212A3AF61500B5796E /* LRChatBootAIChat15Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0371202A3AF61500B5796E /* LRChatBootAIChat15Cell.swift */; };
 		7BB129882A20A068001AC401 /* LRChatBootCustomNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB129872A20A068001AC401 /* LRChatBootCustomNavView.swift */; };
 		7BB1298D2A20A616001AC401 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BB1298F2A20A616001AC401 /* Localizable.strings */; };
 		7BB129912A20AC75001AC401 /* Arial Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7BB129902A20AC75001AC401 /* Arial Black.ttf */; };
@@ -161,7 +164,6 @@
 		7BD54B822A29DE9500F416CC /* LRTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B812A29DE9500F416CC /* LRTextView.swift */; };
 		7BD54B852A29F2B000F416CC /* LRChatBootChatDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B842A29F2B000F416CC /* LRChatBootChatDB.swift */; };
 		7BD54B872A2AD53C00F416CC /* LRChatBootChatTopicDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B862A2AD53C00F416CC /* LRChatBootChatTopicDB.swift */; };
-		7BD54B902A2B441400F416CC /* LRChatBootChatTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B8F2A2B441400F416CC /* LRChatBootChatTarget.swift */; };
 		7BD54B932A2B487100F416CC /* LRChatBootNetConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B922A2B487100F416CC /* LRChatBootNetConstant.swift */; };
 		7BD54B962A2D7EB500F416CC /* LRChatBootSubscribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B952A2D7EB500F416CC /* LRChatBootSubscribeView.swift */; };
 		7BD54B982A2D7FDF00F416CC /* LRChatBootSubscribeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD54B972A2D7FDF00F416CC /* LRChatBootSubscribeItem.swift */; };
@@ -176,6 +178,9 @@
 		7B0306882A31AE7B00B10823 /* LRChatBootTopicCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootTopicCategoryModel.swift; sourceTree = "<group>"; };
 		7B03068A2A31D15900B10823 /* UIView+IndicatorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+IndicatorExtension.swift"; sourceTree = "<group>"; };
 		7B03710D2A3712C300B5796E /* UITabBarController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Extension.swift"; sourceTree = "<group>"; };
+		7B0371192A39AD8A00B5796E /* LRChatBootQuestionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootQuestionRequest.swift; sourceTree = "<group>"; };
+		7B03711E2A39CBED00B5796E /* UITableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		7B0371202A3AF61500B5796E /* LRChatBootAIChat15Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootAIChat15Cell.swift; sourceTree = "<group>"; };
 		7BB129872A20A068001AC401 /* LRChatBootCustomNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootCustomNavView.swift; sourceTree = "<group>"; };
 		7BB1298E2A20A616001AC401 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7BB129902A20AC75001AC401 /* Arial Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Arial Black.ttf"; sourceTree = "<group>"; };
@@ -329,7 +334,6 @@
 		7BD54B812A29DE9500F416CC /* LRTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRTextView.swift; sourceTree = "<group>"; };
 		7BD54B842A29F2B000F416CC /* LRChatBootChatDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootChatDB.swift; sourceTree = "<group>"; };
 		7BD54B862A2AD53C00F416CC /* LRChatBootChatTopicDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootChatTopicDB.swift; sourceTree = "<group>"; };
-		7BD54B8F2A2B441400F416CC /* LRChatBootChatTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootChatTarget.swift; sourceTree = "<group>"; };
 		7BD54B922A2B487100F416CC /* LRChatBootNetConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootNetConstant.swift; sourceTree = "<group>"; };
 		7BD54B952A2D7EB500F416CC /* LRChatBootSubscribeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootSubscribeView.swift; sourceTree = "<group>"; };
 		7BD54B972A2D7FDF00F416CC /* LRChatBootSubscribeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootSubscribeItem.swift; sourceTree = "<group>"; };
@@ -360,6 +364,14 @@
 				E743412651AA379D9D5AAA6D /* Pods-AIChatBoot.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		7B03711D2A39CBED00B5796E /* UITableView */ = {
+			isa = PBXGroup;
+			children = (
+				7B03711E2A39CBED00B5796E /* UITableView+Extension.swift */,
+			);
+			path = UITableView;
 			sourceTree = "<group>";
 		};
 		7BB129862A20A055001AC401 /* CustomNav */ = {
@@ -648,6 +660,7 @@
 		7BB4F96E2A1F10CD006E3AEF /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				7B03711D2A39CBED00B5796E /* UITableView */,
 				7BB4F9AE2A1F324C006E3AEF /* Int */,
 				7BB4F99E2A1F13B5006E3AEF /* NSObject */,
 				7BB4F98D2A1F121A006E3AEF /* UIViewController */,
@@ -1151,6 +1164,7 @@
 			children = (
 				7BD54B5E2A27411100F416CC /* LRChatBootChatCell.swift */,
 				7BD54B602A27470A00F416CC /* LRChatBootAIChatCell.swift */,
+				7B0371202A3AF61500B5796E /* LRChatBootAIChat15Cell.swift */,
 				7BD54B682A2750BB00F416CC /* LRChatBootAssistantCell.swift */,
 				7BD54B6A2A275A3C00F416CC /* LRChatBootChatTableView.swift */,
 			);
@@ -1195,7 +1209,6 @@
 			isa = PBXGroup;
 			children = (
 				7BB4F9B52A1F329B006E3AEF /* Target.swift */,
-				7BD54B8F2A2B441400F416CC /* LRChatBootChatTarget.swift */,
 			);
 			path = Target;
 			sourceTree = "<group>";
@@ -1214,6 +1227,7 @@
 		7BD54B8C2A2B431800F416CC /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				7B0371192A39AD8A00B5796E /* LRChatBootQuestionRequest.swift */,
 				7BB4F9B62A1F329B006E3AEF /* RatingReviewRequest.swift */,
 				7BB4F9BE2A1F329B006E3AEF /* AIRequest.swift */,
 			);
@@ -1449,7 +1463,9 @@
 				7BD54B932A2B487100F416CC /* LRChatBootNetConstant.swift in Sources */,
 				7BB4F9C42A1F329B006E3AEF /* DecryptPlugin.swift in Sources */,
 				7BB4F9482A1F0E64006E3AEF /* LRBundleResourceBase.swift in Sources */,
+				7B03711A2A39AD8A00B5796E /* LRChatBootQuestionRequest.swift in Sources */,
 				7BB4F9292A1F0E64006E3AEF /* LROpenADManager.swift in Sources */,
+				7B0371212A3AF61500B5796E /* LRChatBootAIChat15Cell.swift in Sources */,
 				7BB7627E2A271CED00742C06 /* LRWebCustomNavView.swift in Sources */,
 				7BB762672A26EA0F00742C06 /* LRChatBootSettingCell.swift in Sources */,
 				7BB762442A24AD0F00742C06 /* LRChatBootExploreAllClassifyCell.swift in Sources */,
@@ -1520,6 +1536,7 @@
 				7BB4FA122A205262006E3AEF /* LRChatBootStringAppearStreamingAnimation.swift in Sources */,
 				7BB4F9372A1F0E64006E3AEF /* LRGCDTool.swift in Sources */,
 				7BB4F9402A1F0E64006E3AEF /* LRIAPStoreManager.swift in Sources */,
+				7B03711F2A39CBED00B5796E /* UITableView+Extension.swift in Sources */,
 				7BB4F9342A1F0E64006E3AEF /* EmptyDataSetSource.swift in Sources */,
 				7BD54B6B2A275A3C00F416CC /* LRChatBootChatTableView.swift in Sources */,
 				7BB4F9382A1F0E64006E3AEF /* LRFacebookStatistics.swift in Sources */,
@@ -1533,7 +1550,6 @@
 				7BB4F9B22A1F324C006E3AEF /* CMTime+Extension.swift in Sources */,
 				7BB4F9972A1F1276006E3AEF /* LRAPPNotification.swift in Sources */,
 				7BD54B672A274F9300F416CC /* LRChatBootChatEnumFile.swift in Sources */,
-				7BD54B902A2B441400F416CC /* LRChatBootChatTarget.swift in Sources */,
 				7BD54B802A29DE6E00F416CC /* LRTextContentView.swift in Sources */,
 				7BB762282A24556200742C06 /* LRChatBootTopicRecommendationView.swift in Sources */,
 				7BB4F93B2A1F0E64006E3AEF /* LRFacebookStatisttics.swift in Sources */,

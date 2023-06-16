@@ -22,7 +22,9 @@ func APPFont(_ size: CGFloat = 14) -> UIFont {
 }
 
 // MARK: 网络请求Key
-let NET_REQUEST_SECRET_KEY: String = "H83PGgg8$zbdZ1M9DABF96zqcF1u7i."
+let NET_REQUEST_SECRET_KEY: String = "LDv8rJW0$/BGCYHIBzl3J8/9DYlRzj."
+// MARK: 网络请求根地址
+let HOST_URL: String = "https://api.conhor.pro"
 
 // MARK: CDN前缀
 let CDN_PREFFIX: String = "https://cdn.conhor.pro"

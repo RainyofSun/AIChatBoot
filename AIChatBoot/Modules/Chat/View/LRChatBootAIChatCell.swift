@@ -11,7 +11,7 @@ class LRChatBootAIChatCell: LRChatBootChatCell {
 
     weak open var AIChatDelegate: ChatBootAIChatProtocol?
     
-    private lazy var refreshBtn: UIButton = {
+    private(set) lazy var refreshBtn: UIButton = {
         let btn = UIButton(type: UIButton.ButtonType.custom)
         btn.cornerRadius = 10
         btn.backgroundColor = WhiteColor.withAlphaComponent(0.8)
@@ -19,7 +19,7 @@ class LRChatBootAIChatCell: LRChatBootChatCell {
         return btn
     }()
     
-    private lazy var copyBtn: UIButton = {
+    private(set) lazy var copyBtn: UIButton = {
         let btn = UIButton(type: UIButton.ButtonType.custom)
         btn.cornerRadius = 10
         btn.backgroundColor = WhiteColor.withAlphaComponent(0.8)
@@ -27,7 +27,7 @@ class LRChatBootAIChatCell: LRChatBootChatCell {
         return btn
     }()
     
-    private lazy var shareBtn: UIButton = {
+    private(set) lazy var shareBtn: UIButton = {
         let btn = UIButton(type: UIButton.ButtonType.custom)
         btn.cornerRadius = 10
         btn.backgroundColor = WhiteColor.withAlphaComponent(0.8)
@@ -35,7 +35,7 @@ class LRChatBootAIChatCell: LRChatBootChatCell {
         return btn
     }()
     
-    private var indicatorView: UIActivityIndicatorView?
+    var indicatorView: UIActivityIndicatorView?
     
     private let BTN_MIN_WIDTH: CGFloat = 95
     
@@ -71,7 +71,6 @@ class LRChatBootAIChatCell: LRChatBootChatCell {
             self.copyBtn.isEnabled = true
             self.refreshBtn.isEnabled = true
         }
-        
     }
     
     override func reloadChatCellSource(chatModel: LRChatBootChatModel) {

@@ -40,11 +40,9 @@ extension String {
     }
     
     private func aesDecryptStr(_ aesText: String, _ key: String, _ iv: String) -> String? {
-        Log.debug(aesText)
         do {
             let aes = try AES(key: key, iv: iv, padding: .pkcs7) // aes128
             let decryptedBase64String = try aesText.decryptBase64ToString(cipher: aes)
-            Log.debug(decryptedBase64String)
             return decryptedBase64String
         } catch {
             return nil
