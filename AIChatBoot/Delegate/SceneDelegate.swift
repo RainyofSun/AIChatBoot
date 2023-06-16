@@ -100,8 +100,6 @@ private extension SceneDelegate {
         startAdvertisingCache()
         // IAP监听
         IAPObserver()
-        // 刷新token
-        AuthRefresh.refreshToken(success: {}, fail: {_ in })
     }
     
     // ------------ ToastManager 设置 ----------------

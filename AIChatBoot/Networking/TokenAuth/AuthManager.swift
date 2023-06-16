@@ -11,6 +11,7 @@ import KeychainSwift
 
 public final class AuthManager {
     private static let keychainAuthKey = "HSAuthrization"
+    
     private lazy var keychain: KeychainSwift = {
         let keychain = KeychainSwift(keyPrefix: "AuthToken")
         return keychain
@@ -25,6 +26,7 @@ public final class AuthManager {
         guard let data = self.shared.keychain.getData(keychainAuthKey) else { return nil }
         return try? decoder.decode(Auth.self, from: data)
     }
+    
     public static var authorization: String? {
         guard let authInfo = self.authInfo,
               let token = authInfo.access_token else { return "" }
@@ -65,6 +67,7 @@ public final class AuthManager {
 class AuthRefresh {
     public typealias TokenSuccessHandler = (() -> Void)
     public typealias TokenFailHandler = ((Error?) -> Void)
+    
     public static func refreshToken(success:@escaping TokenSuccessHandler, fail:@escaping TokenFailHandler) {
         let params = ["apiKey": "com.chatboot.AIChatBoot", "scope": "ios", "secretKey": NET_REQUEST_SECRET_KEY]
         AIChatTarget().requestAuth(params: params) { res, err in

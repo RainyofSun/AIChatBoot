@@ -23,7 +23,7 @@ class LRChatBootHomeViewController: LRChatBootBaseViewController, HideNavigation
         super.viewDidLoad()
         loadHomeViews()
         layoutHomeViews()
-        requestQuestionCategory()
+        refreshAuthToken()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -66,6 +66,13 @@ private extension LRChatBootHomeViewController {
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview().offset(-10)
         }
+    }
+    
+    func refreshAuthToken() {
+        // 刷新token
+        AuthRefresh.refreshToken(success: { [weak self] in
+            self?.requestQuestionCategory()
+        }, fail: {_ in })
     }
     
     func requestQuestionCategory() {
