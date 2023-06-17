@@ -278,7 +278,9 @@ extension LRChatBootChatViewController: ChatBootAIChunkedReplyProtocol {
             _cell.refreshAIReplyText(reply: reply)
         }
         
+        self.chatTableView.beginUpdates()
         self.chatTableView.reloadRows(at: [_mark], with: UITableView.RowAnimation.none)
+        self.chatTableView.endUpdates()
 #if DEBUG
 #else
         self.speechSynthesizer.speechAIMessage(with: reply)

@@ -48,6 +48,7 @@ class LRChatBootQuestionRequest: NSObject {
                         await MainActor.run {
                             if text == "stop" {
                                 self.replyDelegate?.AI_chunkedReplyEnd(error: nil)
+                                self.stopAIReplyRequest()
                             } else {
                                 self.replyDelegate?.AI_chunkedReply(reply: text)
                             }
@@ -109,7 +110,6 @@ private extension LRChatBootQuestionRequest {
                         for try await line3:String in result.lines {
                             // 丢掉前6个字符 --- "data: "
                             guard line3.hasPrefix("data: "), let jsonData = line3.dropFirst(6).data(using: .utf8) else {
-                                print("有一帧解析失败了")
                                 continue
                             }
                             // 解析某一帧数据
