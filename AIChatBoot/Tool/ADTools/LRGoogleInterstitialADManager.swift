@@ -156,13 +156,6 @@ class LRGoogleInterstitialADManager: NSObject {
                     self.adDelegate?.hs_adDidDismissFullScreenContent(adType: adType)
                 }
             }
-            // 特殊情况: 如果当前类型的广告缓存中未存在,且处于正在缓存的状态,且外界指定延迟回调,此时手动延迟1秒回调
-            if InsertADCache[adType] == nil && (_cacheADStatus[adType] ?? false) {
-                Log.debug("当前插屏广告正在缓存中,手动延迟回调至插屏广告关闭 -------------")
-                delay(_delay_callback_time) {
-                    self.adDelegate?.hs_adDidDismissFullScreenContent(adType: adType)
-                }
-            }
         } else {
             // 条件满足,展示广告同时回调外部操作
             self.adDelegate?.hs_adDidDismissFullScreenContent(adType: adType)

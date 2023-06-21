@@ -33,6 +33,12 @@ class LRChatBootChatViewController: LRChatBootBaseViewController, HideNavigation
     private var _AI_replay_cell: UITableViewCell?
     // iOS 15.0 标记是否询问之前的问题
     private var _AI_ask_previous_question: Bool = false
+    // iOS 15.0 缓存未读播报
+    private var _cache_unread_broadcasts: [String] = []
+    // iOS 15.0 未读播报终止符集合
+    private let _set_unread_broadcast_terminators: [String] = [".","...","?","!","\n"]
+    // iOS 15.0 未读播报
+    private var _unread_broadcast: String = ""
     
     private weak var _inputBoxView: LRChatBootInputBoxView?
     private let CHAT_CELL_ID: String = "com.AI.chat.cell"
@@ -278,12 +284,25 @@ extension LRChatBootChatViewController: ChatBootAIChunkedReplyProtocol {
             _cell.refreshAIReplyText(reply: reply)
         }
         
+        // 拼接未读播报
+        _unread_broadcast += reply
+        for item in _set_unread_broadcast_terminators {
+            if _unread_broadcast.hasSuffix(item) {
+                Log.info("一句话结束 ----- \(_unread_broadcast)")
+                // 一句话结束
+                _cache_unread_broadcasts.append(_unread_broadcast)
+                // 重置播报
+                _unread_broadcast = ""
+                break
+            }
+        }
+        
         self.chatTableView.beginUpdates()
         self.chatTableView.reloadRows(at: [_mark], with: UITableView.RowAnimation.none)
         self.chatTableView.endUpdates()
 #if DEBUG
 #else
-        self.speechSynthesizer.speechAIMessage(with: reply)
+        self.speechSynthesizer.speechAIMessage(with: _cache_unread_broadcasts.removeFirst())
 #endif
     }
     
@@ -301,6 +320,11 @@ extension LRChatBootChatViewController: ChatBootAIChunkedReplyProtocol {
         // 释放标记
         self._AI_replay_mark = nil
         self._AI_replay_cell = nil
+        if !_unread_broadcast.isEmpty {
+            _cache_unread_broadcasts.append(_unread_broadcast)
+        }
+        // 重置未读播报
+        _unread_broadcast = ""
     }
 }
 
@@ -463,7 +487,16 @@ extension LRChatBootChatViewController: ChatBootInputBoxProtocol {
             self.view.makeToast(LRLocalizableManager.localValue("chatTip"))
         }
         
-        return _can_send_question && !_is_waitting_AI_reply
+        let _can_send = _can_send_question && !_is_waitting_AI_reply
+        if _can_send {
+            // 清空语音未读博报
+            _cache_unread_broadcasts.removeAll()
+            // 重置未读播报
+            _unread_broadcast = ""
+            // 停止播放语言
+            self.speechSynthesizer.stopSpeaking()
+        }
+        return _can_send
     }
     
     func AI_sendQuestion(question: String) {
@@ -559,6 +592,16 @@ extension LRChatBootChatViewController: ChatBootInputBoxProtocol {
 extension LRChatBootChatViewController: ChatBootSpeechProtocol {
     func AI_speechStart() {
         NotificationCenter.default.post(name: NSNotification.Name.APPChatReadyPlayNotification, object: nil)
+    }
+    
+    func AI_speechEnd() {
+        if self._cache_unread_broadcasts.isEmpty {
+            self.speechSynthesizer.stopSpeaking()
+            Log.info("语言播放完毕 ------------")
+            return
+        }
+        
+        self.speechSynthesizer.speechAIMessage(with: _cache_unread_broadcasts.removeFirst())
     }
     
     func AI_mutePlayback() -> Bool {

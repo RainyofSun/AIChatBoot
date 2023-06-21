@@ -11,8 +11,8 @@ import Speech
 protocol ChatBootSpeechProtocol: AnyObject {
     /// 语音播放开始
     func AI_speechStart()
-    /// 语音播放进度
-    func AI_speechProgress(progress: Float)
+    /// 语音播放结束
+    func AI_speechEnd()
     /// 是否静音播放
     func AI_mutePlayback() -> Bool
 }
@@ -96,7 +96,7 @@ extension LRChatBootSpeechSynthesizer: AVSpeechSynthesizerDelegate {
 
     //开始播放
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
-
+        self.speechDelegate?.AI_speechStart()
     }
     
     //播放完成
@@ -107,5 +107,6 @@ extension LRChatBootSpeechSynthesizer: AVSpeechSynthesizerDelegate {
             print(error.localizedDescription)
         }
         speechUtterance = nil
+        self.speechDelegate?.AI_speechEnd()
     }
 }
