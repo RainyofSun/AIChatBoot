@@ -97,7 +97,7 @@ PODS:
     - GoogleUtilities/Logger
   - HandyJSON (5.0.2)
   - KeychainSwift (20.0.0)
-  - Kingfisher (7.3.0)
+  - Kingfisher (7.7.0)
   - lottie-ios (3.4.1)
   - Moya (15.0.0):
     - Moya/Core (= 15.0.0)
@@ -139,7 +139,7 @@ DEPENDENCIES:
   - Google-Mobile-Ads-SDK (= 9.7.0)
   - HandyJSON (= 5.0.2)
   - KeychainSwift (= 20.0.0)
-  - Kingfisher (= 7.3.0)
+  - Kingfisher
   - lottie-ios (= 3.4.1)
   - Moya (= 15.0.0)
   - MZRefresh (= 0.0.5)
@@ -212,7 +212,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
   KeychainSwift: 0ce6a4d13f7228054d1a71bb1b500448fb2ab837
-  Kingfisher: cdb1189a9223b1bc028816bd47c8b8101a58831c
+  Kingfisher: f043ac666dfc96c1f37604f93effb45a7ee3a3e1
   lottie-ios: 016449b5d8be0c3dcbcfa0a9988469999cd04c5d
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   MZRefresh: dc454ce06b967e1fba29c594a6413f224df1617a
@@ -230,6 +230,6 @@ SPEC CHECKSUMS:
   WCDBOptimizedSQLCipher: 55124a19f70180eb38163c959dd56695b8af8b60
   ZCycleView: 7826fb8439486339ed099b0979d9b564a2937ab0
 
-PODFILE CHECKSUM: 5c909f577c65f4d33a3228ea368e7b48a66a27c7
+PODFILE CHECKSUM: c7fc1d16f7e51ca777e2e6ca73ca80ec11a80a64
 
 COCOAPODS: 1.11.3
