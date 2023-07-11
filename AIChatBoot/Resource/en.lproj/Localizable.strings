@@ -37,6 +37,7 @@
 "chatTip" = "Answer is loading, Please wait.";
 "chatError" = "Answer timed out, please try again";
 "chatCollectionTip" = "Say something to intelligent robot";
+"AITired" = "Mr Bot is a bit tired, let him rest for a minute before serving you";
 
 // MARK: Alert
 "Cancel" = "Cancel";

@@ -30,9 +30,3 @@ class LRChatBootChatTableView: UITableView {
         deallocPrint()
     }
 }
-
-extension LRChatBootChatTableView: UIScrollViewDelegate {
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.resignFirstResponderHandler?()
-    }
-}

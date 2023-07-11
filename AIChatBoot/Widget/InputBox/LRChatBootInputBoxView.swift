@@ -181,7 +181,7 @@ private extension LRChatBootInputBoxView {
         Log.debug("键盘高度 keyboardRect 退下 --------- begin = \(beginRect)  end = \(endRect)")
         UIView.animate(withDuration: animationTime, delay: .zero, options: UIView.AnimationOptions.curveEaseInOut) {
             self.snp.updateConstraints { make in
-                make.bottom.equalToSuperview()
+                make.bottom.equalToSuperview().offset(-UIWindow.safeAreaBottom())
             }
             self.superview?.layoutIfNeeded()
         } completion: { _ in

@@ -1,5 +1,5 @@
 //
-//  LRChatBootAIChat15Cell.swift
+//  LRChatBootAIChatNoAnimationCell.swift
 //  AIChatBoot
 //
 //  Created by 苍蓝猛兽 on 2023/6/15.
@@ -7,8 +7,7 @@
 
 import UIKit
 
-@available(iOS 15.0, *)
-class LRChatBootAIChat15Cell: LRChatBootAIChatCell {
+class LRChatBootAIChatNoAnimationCell: LRChatBootAIChatCell {
 
     /// AI回复的全部文案
     open var AIReplayText: String {
@@ -64,8 +63,23 @@ class LRChatBootAIChat15Cell: LRChatBootAIChatCell {
     }
     
     // MARK: Public Methods
+    /// 准备开始AI回答
+    public func prepareRenderAIReply() {
+        if self.indicatorView != nil {
+            self.removeIndicatorView(activityView: self.indicatorView)
+            self.indicatorView = nil
+        }
+        
+        // 等待动画是否结束
+        self.AIChatDelegate?.AI_indicatorAnimationComplete(isWaitting: false, cellMark: self.cellMark)
+    }
+    
     /// 单纯刷新文字
     public func refreshAIReplyText(reply: String) {
-        self.contentLab.text! += reply
+        if self.indicatorView != nil {
+            self.removeIndicatorView(activityView: self.indicatorView)
+            self.indicatorView = nil
+        }
+        self.contentLab.text = reply
     }
 }

@@ -97,6 +97,16 @@ extension String {
       }
       return nil
     }
+    
+    public func split(_ separator: String) -> [String] {
+        return self.components(separatedBy: separator).filter {
+            !$0.trimmed().isEmpty
+        }
+    }
+    
+    public func trimmed() -> String {
+        return self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
 
 extension String {

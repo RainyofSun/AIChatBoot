@@ -18,6 +18,8 @@ struct LRChatBootChatModel: HandyJSON, TableCodable {
     var chatTime: String = Date().yearMonthDay1FormatString
     /// 聊天角色
     var chatRole: AIChatRole = .User
+    /// AIChatAnimation (AI回答是否要使用动画)
+    var AIChatAnimation: Bool = false
     /// 动画是否执行
     var animationComplete: Bool = false
     /// 等待AI回答
@@ -44,6 +46,7 @@ struct LRChatBootChatModel: HandyJSON, TableCodable {
         case isWaittingForAIReply = "isWaittingForAIReply"
         case askQuestion = "askQuestion"
         case chatSerialNumber = "chatSerialNumber"
+        case AIChatAnimation = "AIChatAnimation"
     }
     
     // MARK: Public Methods

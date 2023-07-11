@@ -11,9 +11,9 @@ protocol ChatBootAIChunkedReplyProtocol: AnyObject {
     /// 准备开始传递AI回复
     func AI_preparedToReceiveAIReply()
     /// AI 分段回复
-    func AI_chunkedReply(reply: String)
+    func AI_chunkedReply(reply: String, broadcast: [String])
     /// AI 分段回复结束
-    func AI_chunkedReplyEnd(error: Error?)
+    func AI_chunkedReplyEnd(error: Error?, broadcast: [String])
 }
 
 @available(iOS 15.0, *)
@@ -47,17 +47,17 @@ class LRChatBootQuestionRequest: NSObject {
                     for try await text in stream {
                         await MainActor.run {
                             if text == "stop" {
-                                self.replyDelegate?.AI_chunkedReplyEnd(error: nil)
+                                self.replyDelegate?.AI_chunkedReplyEnd(error: nil, broadcast: [])
                                 self.stopAIReplyRequest()
                             } else {
-                                self.replyDelegate?.AI_chunkedReply(reply: text)
+                                self.replyDelegate?.AI_chunkedReply(reply: text, broadcast: [])
                             }
                         }
                     }
                 }
             } catch {
                 await MainActor.run {
-                    self.replyDelegate?.AI_chunkedReplyEnd(error: error)
+                    self.replyDelegate?.AI_chunkedReplyEnd(error: error, broadcast: [])
                 }
             }
         }

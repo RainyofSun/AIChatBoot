@@ -13,7 +13,8 @@
 		7B03710E2A3712C300B5796E /* UITabBarController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B03710D2A3712C300B5796E /* UITabBarController+Extension.swift */; };
 		7B03711A2A39AD8A00B5796E /* LRChatBootQuestionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0371192A39AD8A00B5796E /* LRChatBootQuestionRequest.swift */; };
 		7B03711F2A39CBED00B5796E /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B03711E2A39CBED00B5796E /* UITableView+Extension.swift */; };
-		7B0371212A3AF61500B5796E /* LRChatBootAIChat15Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0371202A3AF61500B5796E /* LRChatBootAIChat15Cell.swift */; };
+		7B0371212A3AF61500B5796E /* LRChatBootAIChatNoAnimationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0371202A3AF61500B5796E /* LRChatBootAIChatNoAnimationCell.swift */; };
+		7B222EBA2A5CE9C40081A3C1 /* LRChatBootAIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B222EB92A5CE9C40081A3C1 /* LRChatBootAIRequest.swift */; };
 		7BB129882A20A068001AC401 /* LRChatBootCustomNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB129872A20A068001AC401 /* LRChatBootCustomNavView.swift */; };
 		7BB1298D2A20A616001AC401 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BB1298F2A20A616001AC401 /* Localizable.strings */; };
 		7BB129912A20AC75001AC401 /* Arial Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7BB129902A20AC75001AC401 /* Arial Black.ttf */; };
@@ -180,7 +181,8 @@
 		7B03710D2A3712C300B5796E /* UITabBarController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Extension.swift"; sourceTree = "<group>"; };
 		7B0371192A39AD8A00B5796E /* LRChatBootQuestionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootQuestionRequest.swift; sourceTree = "<group>"; };
 		7B03711E2A39CBED00B5796E /* UITableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
-		7B0371202A3AF61500B5796E /* LRChatBootAIChat15Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootAIChat15Cell.swift; sourceTree = "<group>"; };
+		7B0371202A3AF61500B5796E /* LRChatBootAIChatNoAnimationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootAIChatNoAnimationCell.swift; sourceTree = "<group>"; };
+		7B222EB92A5CE9C40081A3C1 /* LRChatBootAIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootAIRequest.swift; sourceTree = "<group>"; };
 		7BB129872A20A068001AC401 /* LRChatBootCustomNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRChatBootCustomNavView.swift; sourceTree = "<group>"; };
 		7BB1298E2A20A616001AC401 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7BB129902A20AC75001AC401 /* Arial Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Arial Black.ttf"; sourceTree = "<group>"; };
@@ -1164,7 +1166,7 @@
 			children = (
 				7BD54B5E2A27411100F416CC /* LRChatBootChatCell.swift */,
 				7BD54B602A27470A00F416CC /* LRChatBootAIChatCell.swift */,
-				7B0371202A3AF61500B5796E /* LRChatBootAIChat15Cell.swift */,
+				7B0371202A3AF61500B5796E /* LRChatBootAIChatNoAnimationCell.swift */,
 				7BD54B682A2750BB00F416CC /* LRChatBootAssistantCell.swift */,
 				7BD54B6A2A275A3C00F416CC /* LRChatBootChatTableView.swift */,
 			);
@@ -1230,6 +1232,7 @@
 				7B0371192A39AD8A00B5796E /* LRChatBootQuestionRequest.swift */,
 				7BB4F9B62A1F329B006E3AEF /* RatingReviewRequest.swift */,
 				7BB4F9BE2A1F329B006E3AEF /* AIRequest.swift */,
+				7B222EB92A5CE9C40081A3C1 /* LRChatBootAIRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1465,8 +1468,9 @@
 				7BB4F9482A1F0E64006E3AEF /* LRBundleResourceBase.swift in Sources */,
 				7B03711A2A39AD8A00B5796E /* LRChatBootQuestionRequest.swift in Sources */,
 				7BB4F9292A1F0E64006E3AEF /* LROpenADManager.swift in Sources */,
-				7B0371212A3AF61500B5796E /* LRChatBootAIChat15Cell.swift in Sources */,
+				7B0371212A3AF61500B5796E /* LRChatBootAIChatNoAnimationCell.swift in Sources */,
 				7BB7627E2A271CED00742C06 /* LRWebCustomNavView.swift in Sources */,
+				7B222EBA2A5CE9C40081A3C1 /* LRChatBootAIRequest.swift in Sources */,
 				7BB762672A26EA0F00742C06 /* LRChatBootSettingCell.swift in Sources */,
 				7BB762442A24AD0F00742C06 /* LRChatBootExploreAllClassifyCell.swift in Sources */,
 				7BB4F93C2A1F0E64006E3AEF /* LRStatisticsEventKey.swift in Sources */,

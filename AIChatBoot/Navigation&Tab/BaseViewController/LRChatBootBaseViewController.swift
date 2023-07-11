@@ -34,7 +34,7 @@ extension LRChatBootBaseViewController {
             if canInput {
                 make.bottom.equalToSuperview()
             } else {
-                make.bottom.equalToSuperview().offset(-tabBarHeight())
+                make.bottom.equalToSuperview().offset(-tabBarHeight() - UIWindow.safeAreaBottom())
             }
         }
         
